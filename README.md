@@ -1,44 +1,122 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Emoji Party
 
-## Available Scripts
+## Description
+- Emoji party is a browser-based board game.
 
-In the project directory, you can run:
+- ~~~ 
 
-### `npm start`
+## Gameplay
+- The object of the game is to collect as many ⭐ (stars) as possible.
+- There are many ways to earn a ⭐:
+    1. Accrue 💵✖️2️⃣0️⃣ (twenty dollars) and pass a 🕍 (synogogue) space.
+    2. Find a 📋 (scavenger list) and collect all of the emoji on it.
+    3. Murder another player and steal their ⭐ and 💵.
+    4. Find a 🎁 (gift) with ⭐inside.
+- Each turn, all players in a game will roll the 🎲and advance from 1-10 spaces.
+- Landing on different spaces produces different outcomes.
+- The game lasts 15, 35 or 50 turns.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- ~~~ 
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Spaces
+- There are seven types of spaces that you can land on, each with their own effects.
 
-### `npm test`
+### 🔵 (Blue)
+- Tints your 📛 (badge) blue, as well as grants you 💵✖️3️⃣.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🔴 (Red)
+- Tints your 📛 (badge) red, as well as fines you 💵✖️3️⃣.
 
-### `npm run build`
+### ❇️ (Happening)
+- Tints your 📛 (badge) green, and causes a map-specific effect.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 🧩 (Puzzle)
+- Tints your 📛 (badge) blue, and triggers a puzzle mini-game.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### ❗️(Chance)
+- Tints your 📛 (badge) red, and triggers a chance mini-game.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 💟 (Ally)
+- Tints your 📛 (badge) purple, and allows you to select an ally.
 
-### `npm run eject`
+### 🆚 (Challenge)
+- Tints your 📛 (badge) green, and allows you to challenge another player.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- ~~~ 
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Movement
+- Each turn, each player may roll the 🎲.
+- There are numerous dice, each with different numbers and effects.
+- Allies each grant a movement bonus. Different allies grant different bonuses.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### 🎲 (Standard)
+- Rolls any number from 1 to 10.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### ⚪️🎲 (White)
+- Rolls any number from 0 to 5.
 
-## Learn More
+### ⚫️🎲 (Black)
+- Rolls any number from 6 to 10.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 🔴🎲 (Red)
+- Rolls any number from 1 to 8, but gets to roll again your badge is tinted red.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 🔵🎲 (Blue)
+- Rolls any number from 1 to 8, but gets to roll again your badge is tinted blue.
+
+- ~~~ 
+
+## Tinting
+- After moving on your turn, your 📛 (badge) will be tinted blue, red, green or purple, depending on what space you landed on.
+- Once everyone has a tinted badge, the round mini-game will be determined based on everyone's tint.
+- Green-tinted badges have a 50% chance of becoming blue-tinted and a 50% chance of becoming red-tinted once the type of mini-game is being decided.
+- Purple-tinted badges allow the player to select whether they want to be red- or blue-tinted.
+
+- ~~~
+
+## Mini-Games
+- Mini-games are standalone games that provide 💵to the winner(s).
+- There are two categories of mini-games: round and special.
+
+### Round Mini-Games
+- A round mini-game occurs after every player has moved.
+- There are three types of round mini-games: free-for-all, two-on-two, and three-on-one.
+
+#### Free-for-All
+- Each player competes individually, with only the winner earning 💵✖️🔟.
+
+#### Two-on-Two
+- Two players compete on each team, with the winning team earning 💵✖️8️⃣.
+
+#### Three-on-One
+- Three players compete on one team, and the remaining player competes individually. The winning team earns 💵✖️8️⃣ (if the team of three wins), or 💵✖️🔟 (if the individual wins).
+
+### Special Mini-Games
+
+- ~~~
+
+## Melee
+- Each player offers up party members to take part.
+- Depending on red or blue tint, the party members join the red or blue team.
+- Allies performing actions in battle gain 🔆 (experience), and will eventually level up and become more powerful.
+- Allies killed in battle are removed from play.
+- The team that has the most life remaining at the end of the melee earns 💵✖️🔟 and additional 🔆.
+- Bonuses are given based on the team differential.
+
+- ~~~
+
+## Emojilution
+- Some allies that earn 🔆eventually emojivolve, increasing their stats and abilities.
+
+### Laughing series A
+😀~> 😁~> 😂~> 🤣
+
+### Laughing series B
+😃~> 😄~> 😆~> 😅
+
+### Love series
+😘~> 🥰~> 😍
+
+### Kiss series
+😗~> 😙~> 😚
+
