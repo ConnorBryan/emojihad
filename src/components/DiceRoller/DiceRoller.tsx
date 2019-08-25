@@ -79,13 +79,31 @@ const StyledDiceRoller = styled.div<any>`
         &-emoji {
           @keyframes jumping {
             0% {
+              transform: scale(1, 1);
               bottom: 0;
             }
+            10% {
+              transform: scale(1.1, 0.9);
+            }
+            30% {
+              transform: scale(0.9, 1.1);
+            }
             50% {
+              transform: scale(1.05, 0.95);
               bottom: 50%;
             }
+            57% {
+              transform: scale(1, 1);
+            }
+            64% {
+              transform: scale(1.1, 0.9);
+            }
+            93% {
+              transform: scale(1.05, 0.95);
+            }
             100% {
-              bottom: 0%;
+              transform: scale(1, 1);
+              bottom: 0;
             }
           }
 
