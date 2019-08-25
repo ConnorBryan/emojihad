@@ -1,6 +1,18 @@
 export type Condition = "🚫👁" | "🚫👂";
 
-export type Emoji = "😀" | "👊" | "🎲" | "🆚" | "⚫️";
+export type Emoji =
+  | "😀"
+  | "👊"
+  | "🎲"
+  | "🆚"
+  | "⚫️"
+  | "🧙‍♂️"
+  | "💟"
+  | "✖️"
+  | "🕒"
+  | "💵"
+  | "⭐"
+  | "🔆";
 
 export type Tint = "❤️" | "💙" | "💚" | "💜";
 
