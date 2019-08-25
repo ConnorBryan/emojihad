@@ -37,10 +37,12 @@
   "devDependencies": {
     "@storybook/react": "^5.1.11",
     "@types/chance": "^1.0.6",
+    "@types/lodash.chunk": "^4.2.6",
     "@types/storybook__react": "^4.0.2",
     "@types/styled-components": "^4.1.16",
     "awesome-typescript-loader": "^5.2.1",
     "chance": "^1.0.18",
+    "lodash.chunk": "^4.2.0",
     "react-docgen-typescript-loader": "^3.1.1",
     "react-docgen-typescript-webpack-plugin": "^1.1.0",
     "semantic-ui-css": "^2.4.1",
