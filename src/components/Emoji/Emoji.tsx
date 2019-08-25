@@ -1,14 +1,33 @@
 import React from "react";
-import { Emoji as EmojiType } from "../../types";
+import styled, { css } from "styled-components";
+
+import { Emoji as EmojiType, EmojiSize } from "../../types";
 
 interface IProps {
   emoji: EmojiType;
+  className?: string;
+  size?: EmojiSize;
 }
 
-export default function Emoji({ emoji }: IProps) {
+export default function Emoji({ emoji, className = "", size = 9 }: IProps) {
   return (
-    <span role="img" aria-label="Emoji">
+    <StyledEmoji
+      size={size}
+      role="img"
+      aria-label="Emoji"
+      className={className}
+    >
       {emoji}
-    </span>
+    </StyledEmoji>
   );
 }
+
+const StyledEmoji = styled.span<any>`
+  ${props => {
+    const { size } = props;
+
+    return css`
+      font-size: ${size}px;
+    `;
+  }}
+`;

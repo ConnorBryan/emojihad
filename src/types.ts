@@ -12,11 +12,31 @@ export type Emoji =
   | "🕒"
   | "💵"
   | "⭐"
-  | "🔆";
+  | "🔆"
+  | "🔵"
+  | "🔴"
+  | "⚪️";
 
 export type Tint = "❤️" | "💙" | "💚" | "💜";
 
 export type Space = "🔵" | "🔴" | "⚪️";
+
+export type EmojiSize =
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 14
+  | 16
+  | 18
+  | 20
+  | 24
+  | 36
+  | 48
+  | 64
+  | 72
+  | 100;
 
 export type EntityKind = "⚫️";
 
@@ -45,17 +65,17 @@ export type INormalizedProfiles = INormalizedEntities<IProfile>;
 
 export interface IStats {
   kind: Emoji;
-  "❣️": [number, number];
-  "👊": number;
-  "🧠": number;
-  "👋": number;
-  "🖕": number;
+  life: [number, number];
+  power: number;
+  smarts: number;
+  moves: number;
+  luck: number;
 }
 
 export interface IAlly extends IEntityWithExperience {
-  "👁‍🗨": Condition;
-  "📊": IStats;
-  "🎒": string[];
+  condition: Condition;
+  stats: IStats;
+  backpack: string[];
 }
 
 export type INormalizedAllies = INormalizedEntities<IAlly>;
@@ -65,26 +85,26 @@ export interface IResource extends IEntity {}
 export type INormalizedResources = INormalizedEntities<IResource>;
 
 export interface IAvailableDirections {
-  "⬆️": boolean;
-  "➡️": boolean;
-  "⬇️": boolean;
-  "⬅️": boolean;
+  up: boolean;
+  right: boolean;
+  down: boolean;
+  left: boolean;
 }
 
 export interface ISpace {
-  uuid?: string;
-  "⚫️": Space;
-  "🧭"?: IAvailableDirections;
+  uuid: string;
+  space: Space;
+  availableDirections?: IAvailableDirections;
 }
 
-export type Map = ISpace[][];
+export type WorldMap = ISpace[][];
 
 export interface IGame {
-  "🕑": number;
-  "🗺️": Map;
-  "👥": INormalizedProfiles;
-  "💟": INormalizedAllies;
-  "🛠": INormalizedResources;
+  rounds: number;
+  map: WorldMap;
+  profiles: INormalizedProfiles;
+  allies: INormalizedAllies;
+  resources: INormalizedResources;
 }
 
 export interface IDie {
