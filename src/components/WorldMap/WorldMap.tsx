@@ -53,8 +53,8 @@ export default function WorldMap({ map }: IProps) {
 }
 
 const StyledWorldMap = styled.div<any>`
-  width: 180vw;
-  height: 140vh;
+  width: 130vw;
+  height: 100vh;
   z-index: 1;
   background: rgba(0, 0, 0, 0.7);
   overflow: auto;
@@ -63,6 +63,11 @@ const StyledWorldMap = styled.div<any>`
   justify-content: center;
 
   .-inner {
+    background: darkgreen;
+    border: 4px solid black;
+    border-radius: 5px;
+    padding: 20px;
+    transform: rotateX(50deg) rotateY(0deg) rotateZ(15deg);
   }
   .-spaceRowWrapper {
     display: flex;
@@ -84,7 +89,7 @@ const StyledSpace = styled.div<any>`
       display: flex;
       align-items: center;
       justify-content: center;
-      background: white;
+      background: tan;
       width: 80px;
       height: 80px;
       padding: 12px;
@@ -95,25 +100,25 @@ const StyledSpace = styled.div<any>`
         ${styleWhen(
           hasUpBorder,
           css`
-            border-top: 2px solid;
+            border-top: 4px solid;
           `
         )}
       ${styleWhen(
         hasRightBorder,
         css`
-          border-right: 2px solid;
+          border-right: 4px solid;
         `
       )}
       ${styleWhen(
         hasDownBorder,
         css`
-          border-bottom: 2px solid;
+          border-bottom: 4px solid;
         `
       )}
       ${styleWhen(
         hasLeftBorder,
         css`
-          border-left: 2px solid;
+          border-left: 4px solid;
         `
       )}
       `

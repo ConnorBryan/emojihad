@@ -16,6 +16,7 @@ export default function DiceRoller({ emoji, die, onRoll }: IProps) {
   const [value, updateValue] = useState(getRandomEntry(die.sides));
   const [rolling, updateRolling] = useState(true);
   const [jumping, updateJumping] = useState(false);
+  const [showingExplosion, updateShowingExplosion] = useState(false);
   const [jumped, updateJumped] = useState(false);
 
   function handleJump() {
@@ -23,7 +24,12 @@ export default function DiceRoller({ emoji, die, onRoll }: IProps) {
 
     setTimeout(() => {
       updateRolling(false);
+      updateShowingExplosion(true);
     }, 500);
+
+    setTimeout(() => {
+      updateShowingExplosion(false);
+    }, 650);
 
     setTimeout(() => {
       updateJumping(false);
@@ -49,8 +55,11 @@ export default function DiceRoller({ emoji, die, onRoll }: IProps) {
       />
       <div className="-emojiWrapper">
         <span className="-emojiWrapper-emoji" role="img" aria-label="Smiley">
-          {emoji}
+          <Emoji emoji={emoji} size={14} />
         </span>
+        {showingExplosion && (
+          <Emoji className="-emojiWrapper-explosion" emoji="💥" size={24} />
+        )}
       </div>
       <button onClick={handleJump} disabled={jumping || jumped}>
         <Emoji emoji="👊" />
@@ -71,11 +80,16 @@ const StyledDiceRoller = styled.div<any>`
       width: 3rem;
 
       .-emojiWrapper {
+        position: relative;
         display: flex;
         justify-content: center;
         position: relative;
         height: 2rem;
 
+        &-explosion {
+          position: absolute;
+          top: -10px;
+        }
         &-emoji {
           @keyframes jumping {
             0% {
@@ -89,7 +103,7 @@ const StyledDiceRoller = styled.div<any>`
               transform: scale(0.9, 1.1);
             }
             50% {
-              transform: scale(1.05, 0.95);
+              transform: scale(1.35, 0.95);
               bottom: 50%;
             }
             57% {

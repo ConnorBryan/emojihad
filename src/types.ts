@@ -15,7 +15,8 @@ export type Emoji =
   | "🔆"
   | "🔵"
   | "🔴"
-  | "⚪️";
+  | "⚪️"
+  | "💥";
 
 export type Tint = "❤️" | "💙" | "💚" | "💜";
 
