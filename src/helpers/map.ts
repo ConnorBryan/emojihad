@@ -27,10 +27,6 @@ export const getSpaceDown = (map: WorldMap, fromY: number, fromX: number) => {
   try {
     const spaceData = map[fromY + 1][fromX];
 
-    console.log("here");
-    console.log({ fromY, fromX });
-    console.log({ spaceData });
-
     return spaceData.space === "⚪️" ? null : spaceData;
   } catch {
     return null;

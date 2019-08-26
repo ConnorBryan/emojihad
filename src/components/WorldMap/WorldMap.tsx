@@ -18,49 +18,52 @@ interface IProps {
 export default function WorldMap({ map }: IProps) {
   return (
     <StyledWorldMap>
-      {map.map((row, yIndex) => {
-        return (
-          <div key={yIndex} className="-spaceRowWrapper">
-            {row.map(({ uuid, space }, xIndex) => {
-              const hasUpBorder = !getSpaceUp(map, yIndex, xIndex);
-              const hasRightBorder = !getSpaceRight(map, yIndex, xIndex);
-              const hasDownBorder = !getSpaceDown(map, yIndex, xIndex);
-              const hasLeftBorder = !getSpaceLeft(map, yIndex, xIndex);
-              const isEmpty = space === "⚪️";
+      <div className="-inner">
+        {map.map((row, yIndex) => {
+          return (
+            <div key={yIndex} className="-spaceRowWrapper">
+              {row.map(({ uuid, space }, xIndex) => {
+                const hasUpBorder = !getSpaceUp(map, yIndex, xIndex);
+                const hasRightBorder = !getSpaceRight(map, yIndex, xIndex);
+                const hasDownBorder = !getSpaceDown(map, yIndex, xIndex);
+                const hasLeftBorder = !getSpaceLeft(map, yIndex, xIndex);
+                const isEmpty = space === "⚪️";
 
-              return (
-                <StyledSpace
-                  key={uuid}
-                  className="-spaceWrapper"
-                  isEmpty={isEmpty}
-                  hasUpBorder={hasUpBorder}
-                  hasRightBorder={hasRightBorder}
-                  hasDownBorder={hasDownBorder}
-                  hasLeftBorder={hasLeftBorder}
-                >
-                  {!isEmpty && (
-                    <Emoji className="-space" emoji={space} size={64} />
-                  )}
-                </StyledSpace>
-              );
-            })}
-          </div>
-        );
-      })}
+                return (
+                  <StyledSpace
+                    key={uuid}
+                    isEmpty={isEmpty}
+                    hasUpBorder={hasUpBorder}
+                    hasRightBorder={hasRightBorder}
+                    hasDownBorder={hasDownBorder}
+                    hasLeftBorder={hasLeftBorder}
+                  >
+                    {!isEmpty && (
+                      <Emoji className="-space" emoji={space} size={64} />
+                    )}
+                  </StyledSpace>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </StyledWorldMap>
   );
 }
 
 const StyledWorldMap = styled.div<any>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 180vw;
+  height: 140vh;
   z-index: 1;
   background: rgba(0, 0, 0, 0.7);
   overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  .-inner {
+  }
   .-spaceRowWrapper {
     display: flex;
   }

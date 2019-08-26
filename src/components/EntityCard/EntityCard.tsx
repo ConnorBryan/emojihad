@@ -30,7 +30,7 @@ export default function EntityCard({
       </Card.Content>
       <Card.Content className="-description">
         <Card.Description className="-emoji">
-          <Emoji emoji={emoji} />
+          <Emoji emoji={emoji} size={64} />
         </Card.Description>
       </Card.Content>
       <Card.Content extra={true}>

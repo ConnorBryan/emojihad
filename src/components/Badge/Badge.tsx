@@ -28,30 +28,30 @@ export default function Badge({
   return (
     <StyledBadge color={tintColorLookup[tint]}>
       <Header as="h2" className="-header">
-        <Emoji emoji={emoji} />
+        <Emoji emoji={emoji} size={48} />
         <div>{name}</div>
       </Header>
       <Grid celled="internally">
         <Grid.Row>
           <Grid.Column width="8">
-            <Emoji emoji="🔆" /> <Emoji emoji="✖️" /> {experience}
+            <Emoji emoji="🔆" size={24} /> <Emoji emoji="✖️" /> {experience}
           </Grid.Column>
           <Grid.Column width="8" />
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width="8">
-            <Emoji emoji="💟" /> <Emoji emoji="✖️" /> {allies}
+            <Emoji emoji="💟" size={24} /> <Emoji emoji="✖️" /> {allies}
           </Grid.Column>
           <Grid.Column width="8">
-            <Emoji emoji="🕒" /> <Emoji emoji="✖️" /> {rounds}
+            <Emoji emoji="🕒" size={24} /> <Emoji emoji="✖️" /> {rounds}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width="8">
-            <Emoji emoji="💵" /> <Emoji emoji="✖️" /> {cash}
+            <Emoji emoji="💵" size={24} /> <Emoji emoji="✖️" /> {cash}
           </Grid.Column>
           <Grid.Column width="8">
-            <Emoji emoji="⭐" /> <Emoji emoji="✖️" /> {stars}
+            <Emoji emoji="⭐" size={24} /> <Emoji emoji="✖️" /> {stars}
           </Grid.Column>
         </Grid.Row>
       </Grid>

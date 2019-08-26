@@ -47,18 +47,18 @@ export interface INormalizedEntities<Entity> {
 
 export interface IEntity {
   uuid?: string;
-  "🗣": string;
+  name: string;
 }
 
 export interface IEntityWithExperience extends IEntity {
-  "🔆": number;
+  experience: number;
 }
 
 export interface IProfile extends IEntityWithExperience {
-  "🖌": Tint;
-  "💟": string[];
-  "💵": number;
-  "⭐": number;
+  tint: Tint;
+  allies: string[];
+  cash: number;
+  stars: number;
 }
 
 export type INormalizedProfiles = INormalizedEntities<IProfile>;
