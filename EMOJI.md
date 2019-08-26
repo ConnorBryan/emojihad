@@ -6,8 +6,8 @@
 
 ### 😀 (Grinning Face)
 
-- **Type:** Ally
-- **Element:** (none)
+- **Type:** 💟
+- **Element:** 🚫
 - **Stats:**
   - **💖:** 6-10
   - **👊:** 2-4
@@ -21,9 +21,9 @@
 
 ## People and Fantasy
 
-### 👶(Baby)
+### 👶 (Baby)
 
-- **Type:** Profile
+- **Type:** 👥
 - **Abilities:**
   - **Incessant Crying:** Allows a re-roll on 0️⃣, 1️⃣ or 2️⃣. Recharge 3.
 
@@ -31,7 +31,7 @@
 
 ### 🧥 (Coat)
 
-- **Type:** Equipment
+- **Type:** ⚒
 - **Effects:**
   - **Warm Up:** Prevents freezing.
 
@@ -39,7 +39,7 @@
 
 ### 🐶 (Dog Face)
 
-- **Type:** Ally
+- **Type:** 💟
 - **Element:** 💧
 - **Stats:**
   - **💖:** 4-7
