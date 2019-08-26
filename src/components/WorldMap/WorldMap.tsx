@@ -63,11 +63,23 @@ const StyledWorldMap = styled.div<any>`
   justify-content: center;
 
   .-inner {
+    @keyframes wavering {
+      0% {
+        transform: rotateX(50deg) rotateY(0deg) rotateZ(15deg);
+      }
+      50% {
+        transform: rotateX(54deg) rotateY(0deg) rotateZ(19deg);
+      }
+      100% {
+        transform: rotateX(50deg) rotateY(0deg) rotateZ(15deg);
+      }
+    }
+
     background: darkgreen;
     border: 4px solid black;
     border-radius: 5px;
     padding: 20px;
-    transform: rotateX(50deg) rotateY(0deg) rotateZ(15deg);
+    animation: wavering 3s infinite;
   }
   .-spaceRowWrapper {
     display: flex;
@@ -93,35 +105,41 @@ const StyledSpace = styled.div<any>`
       width: 80px;
       height: 80px;
       padding: 12px;
+      transition: background 0.2s ease-in-out;
 
       ${styleWhen(
         !isEmpty,
         css`
-        ${styleWhen(
-          hasUpBorder,
-          css`
-            border-top: 4px solid;
-          `
-        )}
-      ${styleWhen(
-        hasRightBorder,
-        css`
-          border-right: 4px solid;
+          cursor: pointer;
+          
+          &:hover {
+            background: #ffe7bf;
+          } 
+          ${styleWhen(
+            hasUpBorder,
+            css`
+              border-top: 4px solid;
+            `
+          )}
+          ${styleWhen(
+            hasRightBorder,
+            css`
+              border-right: 4px solid;
+            `
+          )}
+          ${styleWhen(
+            hasDownBorder,
+            css`
+              border-bottom: 4px solid;
+            `
+          )}
+          ${styleWhen(
+            hasLeftBorder,
+            css`
+              border-left: 4px solid;
+            `
+          )}
         `
-      )}
-      ${styleWhen(
-        hasDownBorder,
-        css`
-          border-bottom: 4px solid;
-        `
-      )}
-      ${styleWhen(
-        hasLeftBorder,
-        css`
-          border-left: 4px solid;
-        `
-      )}
-      `
       )}
       ${styleWhen(
         isEmpty,
