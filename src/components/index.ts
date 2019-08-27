@@ -4,5 +4,6 @@ export * from "./DiceRoller";
 export * from "./Die";
 export * from "./Emoji";
 export * from "./EntityCard";
+export * from "./RollPanel";
 export * from "./Screen";
 export * from "./WorldMap";

@@ -1,12 +1,12 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
-import { Emoji as EmojiType, EmojiSize } from "../../types";
+import { Emoji as EmojiType } from "../../types";
 
 interface IProps {
   emoji: EmojiType;
   className?: string;
-  size?: EmojiSize;
+  size?: number;
   onClick?: () => void;
 }
 

@@ -25,23 +25,6 @@ export type Tint = "❤️" | "💙" | "💚" | "💜";
 
 export type Space = "🔵" | "🔴" | "⚪️";
 
-export type EmojiSize =
-  | 8
-  | 9
-  | 10
-  | 11
-  | 12
-  | 14
-  | 16
-  | 18
-  | 20
-  | 24
-  | 36
-  | 48
-  | 64
-  | 72
-  | 100;
-
 export type EntityKind = "⚫️";
 
 export interface INormalizedEntities<Entity> {
