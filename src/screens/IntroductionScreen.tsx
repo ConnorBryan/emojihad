@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import useRouter from "use-react-router";
 
 import { Screen } from "../components";
 
 export default function IntroductionScreen() {
+  const { history } = useRouter();
+
   return (
     <Screen
       title="Emojihad"
@@ -11,7 +14,7 @@ export default function IntroductionScreen() {
         {
           name: "Play Now",
           positive: true,
-          onClick: () => {}
+          onClick: () => history.push("/select-a-profile")
         }
       ]}
     >

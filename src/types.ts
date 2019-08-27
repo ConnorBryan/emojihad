@@ -16,7 +16,10 @@ export type Emoji =
   | "🔵"
   | "🔴"
   | "⚪️"
-  | "💥";
+  | "💥"
+  | "👶"
+  | "👧"
+  | "🧒";
 
 export type Tint = "❤️" | "💙" | "💚" | "💜";
 
@@ -124,3 +127,15 @@ export type DieSide =
   | "8️⃣"
   | "9️⃣"
   | "🔟";
+
+export interface IProfileCharacterAbility {
+  name: string;
+  description: string;
+  recharge: number;
+}
+
+export interface IProfileCharacter {
+  emoji: Emoji;
+  name: string;
+  abilities: IProfileCharacterAbility[];
+}

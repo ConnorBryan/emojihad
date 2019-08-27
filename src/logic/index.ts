@@ -1,5 +1,6 @@
 // Emojihad ©️ Connor Bryan 2019. All rights reserved.
 import { IGame, WorldMap } from "../types";
+import * as profiles from "./profiles";
 
 export const map: WorldMap = [
   [
@@ -166,3 +167,5 @@ export default {
     byId: {}
   }
 } as IGame;
+
+export { profiles };

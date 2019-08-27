@@ -7,15 +7,22 @@ interface IProps {
   emoji: EmojiType;
   className?: string;
   size?: EmojiSize;
+  onClick?: () => void;
 }
 
-export default function Emoji({ emoji, className = "", size = 9 }: IProps) {
+export default function Emoji({
+  emoji,
+  className = "",
+  size = 9,
+  onClick
+}: IProps) {
   return (
     <StyledEmoji
       size={size}
       role="img"
       aria-label="Emoji"
       className={className}
+      onClick={onClick}
     >
       {emoji}
     </StyledEmoji>

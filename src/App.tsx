@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Container } from "semantic-ui-react";
 
-import { IntroductionScreen } from "./screens";
+import { IntroductionScreen, SelectProfileScreen } from "./screens";
 
 /**
  * 1. Introduction screen.
@@ -15,7 +15,12 @@ export default function App() {
     <Container>
       <Router>
         <Switch>
-          <Route path="/" component={IntroductionScreen} />
+          <Route exact path="/" component={IntroductionScreen} />
+          <Route
+            exact
+            path="/select-a-profile"
+            component={SelectProfileScreen}
+          />
         </Switch>
       </Router>
     </Container>

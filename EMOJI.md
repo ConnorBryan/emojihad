@@ -27,6 +27,18 @@
 - **Abilities:**
   - **Incessant Crying:** Allows a re-roll on 0️⃣, 1️⃣ or 2️⃣. Recharge 3.
 
+### 👧 (Girl)
+
+- **Type:** 👥
+- **Abilities:**
+  - **Hopskotch:** Allows a re-roll on 1️⃣, 3️⃣ or 5️⃣. Recharge 3.
+
+### 🧒 (Child)
+
+- **Type:** 👥
+- **Abilities:**
+  - **Growing Mind:** Instead of rolling, re-use the roll from last round. Recharge 5.
+
 ## Clothing and Accessories
 
 ### 🧥 (Coat)
