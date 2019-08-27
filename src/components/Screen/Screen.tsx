@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Header } from "semantic-ui-react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 interface IProps {
   title: string;
@@ -11,7 +11,7 @@ interface IProps {
 export default function Screen({ title, actions, children }: IProps) {
   return (
     <StyledScreen>
-      <Header as="h1" content={title} />
+      <Header className="-title" as="h1" content={title} />
       <div className="-content">{children}</div>
       <div className="-footer">
         {actions.map(({ name, positive, negative, onClick }: any) => (
@@ -20,6 +20,8 @@ export default function Screen({ title, actions, children }: IProps) {
             onClick={onClick}
             positive={positive}
             negative={negative}
+            size="huge"
+            floated="right"
           >
             {name}
           </Button>
@@ -30,15 +32,21 @@ export default function Screen({ title, actions, children }: IProps) {
 }
 
 const StyledScreen = styled.div<any>`
-  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
 
+  .-title {
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    margin-top: 14px !important;
+  }
   .-content {
     flex: 4;
+    position: relative;
   }
   .-footer {
     flex: 1;
+    margin-top: 14px;
   }
 `;

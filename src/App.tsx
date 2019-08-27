@@ -1,26 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 
-const App: React.FC = () => {
+import { IntroductionScreen } from "./screens";
+
+/**
+ * 1. Introduction screen.
+ * 2. Profile selection screen.
+ * 3. Game screen.
+ */
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Router>
+        <Switch>
+          <Route path="/" component={IntroductionScreen} />
+        </Switch>
+      </Router>
+    </Container>
   );
 }
-
-export default App;
