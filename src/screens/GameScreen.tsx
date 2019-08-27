@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { Button, Icon, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 
-import { Badge, DiceRoller, RollPanel, WorldMap } from "../components";
+import { Badge, Box, DiceRoller, RollPanel, WorldMap } from "../components";
 import { map } from "../logic";
 
 export default function GameScreen() {
@@ -45,6 +46,48 @@ export default function GameScreen() {
           <RollPanel disabled={rolling} onClick={toggleRolling} />
         )}
       </StyledRollWrapper>
+      <StyledModal
+        size="tiny"
+        centered={false}
+        trigger={
+          <StyledAlliesButton
+            icon
+            color="purple"
+            size="huge"
+            labelPosition="left"
+          >
+            <Icon name="heart" />
+            Allies
+          </StyledAlliesButton>
+        }
+      >
+        <Modal.Content>
+          <Modal.Description>
+            <Box emoji="💟" title="Allies" collection={["😀"]} />
+          </Modal.Description>
+        </Modal.Content>
+      </StyledModal>
+      <StyledModal
+        size="tiny"
+        centered={false}
+        trigger={
+          <StyledResourcesButton
+            icon
+            color="grey"
+            size="huge"
+            labelPosition="left"
+          >
+            <Icon name="box" />
+            Resources
+          </StyledResourcesButton>
+        }
+      >
+        <Modal.Content>
+          <Modal.Description>
+            <Box emoji="📦" title="Resources" collection={["🗡️"]} />
+          </Modal.Description>
+        </Modal.Content>
+      </StyledModal>
     </>
   );
 }
@@ -59,4 +102,32 @@ const StyledRollWrapper = styled.div<any>`
   position: fixed;
   right: 10px;
   bottom: 10px;
+`;
+
+const StyledAlliesButton = styled(Button)<any>`
+  position: fixed !important;
+  bottom: 10px;
+  left: 10px;
+  text-transform: uppercase !important;
+  letter-spacing: 0.7px;
+`;
+
+const StyledResourcesButton = styled(Button)<any>`
+  position: fixed !important;
+  bottom: 10px;
+  left: 200px;
+  text-transform: uppercase !important;
+  letter-spacing: 0.7px;
+`;
+
+const StyledModal = styled(Modal)<any>`
+  background: transparent !important;
+
+  .content,
+  .description {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+  }
 `;

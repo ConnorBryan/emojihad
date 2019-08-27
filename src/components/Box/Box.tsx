@@ -18,7 +18,7 @@ export default function Box({ emoji, title, collection }: IProps) {
   return (
     <StyledBox>
       <Header as="h2" className="-header">
-        <Emoji emoji={emoji} />
+        <Emoji emoji={emoji} size={32} />
         <div>{title}</div>
       </Header>
       <Grid celled={true} columns={3}>
@@ -26,7 +26,7 @@ export default function Box({ emoji, title, collection }: IProps) {
           <Grid.Row key={index}>
             {row.map((entry, secondIndex) => (
               <Grid.Column key={secondIndex} className="-column">
-                {entry}
+                {entry && <Emoji emoji={entry} size={48} />}
               </Grid.Column>
             ))}
           </Grid.Row>
@@ -43,8 +43,13 @@ const StyledBox = styled(Segment)<any>`
     display: flex;
     align-items: center;
     justify-content: space-between;
+    text-transform: uppercase !important;
+    letter-spacing: 0.7px;
   }
   .-column {
-    height: 50px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 95px;
   }
 `;
