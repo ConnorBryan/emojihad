@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 
 import { getRandomEntry, sideLookup } from "../../helpers";
+import { Emoji } from "../Emoji";
 
 interface IProps {
   value: number;
+  size: number;
   sides: number[];
   rolling?: boolean;
   onUpdateValue?(value: number): void;
@@ -12,6 +14,7 @@ interface IProps {
 export default function Die({
   value,
   sides,
+  size,
   rolling = false,
   onUpdateValue = () => {}
 }: IProps) {
@@ -31,9 +34,5 @@ export default function Die({
     };
   }, [onUpdateValue, sides, rolling]);
 
-  return (
-    <span role="img" aria-label={`${sides.length}-sides die`}>
-      {sideLookup[value]}
-    </span>
-  );
+  return <Emoji emoji={sideLookup[value]} size={size} />;
 }

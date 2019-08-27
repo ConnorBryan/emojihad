@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Button, Segment } from "semantic-ui-react";
 import styled, { css } from "styled-components";
 
 import { getRandomEntry, styleWhen } from "../../helpers";
@@ -47,29 +48,35 @@ export default function DiceRoller({ emoji, die, onRoll }: IProps) {
 
   return (
     <StyledDiceRoller jumping={jumping}>
-      <Die
-        value={value}
-        sides={die.sides}
-        rolling={rolling}
-        onUpdateValue={updateValue}
-      />
-      <div className="-emojiWrapper">
-        <span className="-emojiWrapper-emoji" role="img" aria-label="Smiley">
-          <Emoji emoji={emoji} size={14} />
-        </span>
+      <div className="-dieWrapper">
+        <Die
+          size={64}
+          value={value}
+          sides={die.sides}
+          rolling={rolling}
+          onUpdateValue={updateValue}
+        />
         {showingExplosion && (
-          <Emoji className="-emojiWrapper-explosion" emoji="💥" size={24} />
+          <Emoji className="-explosion" emoji="💥" size={48} />
         )}
       </div>
-      <button onClick={handleJump} disabled={jumping || jumped}>
-        <Emoji emoji="👊" />
-        <Emoji emoji="🎲" />
-      </button>
+      <div className="-emojiWrapper">
+        <Emoji className="-emoji" emoji={emoji} size={64} />
+      </div>
+      <Button
+        className="-button"
+        primary={true}
+        onClick={handleJump}
+        disabled={jumping || jumped}
+      >
+        <Emoji emoji="👊" size={24} />
+        <Emoji emoji="🎲" size={24} />
+      </Button>
     </StyledDiceRoller>
   );
 }
 
-const StyledDiceRoller = styled.div<any>`
+const StyledDiceRoller = styled(Segment)<any>`
   ${props => {
     const { jumping } = props;
 
@@ -77,60 +84,61 @@ const StyledDiceRoller = styled.div<any>`
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 3rem;
+      width: 150px;
 
+      .-dieWrapper {
+        position: relative;
+        margin-top: 2rem;
+
+        .-explosion {
+          position: absolute;
+          bottom: -5px;
+          left: 12px;
+        }
+      }
       .-emojiWrapper {
-        position: relative;
-        display: flex;
-        justify-content: center;
-        position: relative;
-        height: 2rem;
-
-        &-explosion {
-          position: absolute;
-          top: -10px;
-        }
-        &-emoji {
-          @keyframes jumping {
-            0% {
-              transform: scale(1, 1);
-              bottom: 0;
-            }
-            10% {
-              transform: scale(1.1, 0.9);
-            }
-            30% {
-              transform: scale(0.9, 1.1);
-            }
-            50% {
-              transform: scale(1.35, 0.95);
-              bottom: 50%;
-            }
-            57% {
-              transform: scale(1, 1);
-            }
-            64% {
-              transform: scale(1.1, 0.9);
-            }
-            93% {
-              transform: scale(1.05, 0.95);
-            }
-            100% {
-              transform: scale(1, 1);
-              bottom: 0;
-            }
+        height: 120px;
+      }
+      .-emoji {
+        @keyframes jumping {
+          0% {
+            transform: scale(1, 1);
+            margin-top: 5rem;
           }
-
-          position: absolute;
-          bottom: 0;
-
-          ${styleWhen(
-            jumping,
-            css`
-              animation: jumping 1s forwards;
-            `
-          )}
+          10% {
+            transform: scale(1.1, 0.9);
+          }
+          30% {
+            transform: scale(0.9, 1.1);
+          }
+          50% {
+            transform: scale(1.35, 0.95);
+            margin-top: 1.1rem;
+          }
+          57% {
+            transform: scale(1, 1);
+          }
+          64% {
+            transform: scale(1.1, 0.9);
+          }
+          93% {
+            transform: scale(1.05, 0.95);
+          }
+          100% {
+            transform: scale(1, 1);
+            margin-top: 5rem;
+          }
         }
+
+        display: inline-block;
+        margin-top: 5rem;
+
+        ${styleWhen(
+          jumping,
+          css`
+            animation: jumping 1s forwards;
+          `
+        )}
       }
     `;
   }}

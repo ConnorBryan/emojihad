@@ -4,9 +4,14 @@ import styled from "styled-components";
 
 import { Emoji } from "../Emoji";
 
-export default function RollPanel() {
+interface IProps {
+  disabled?: boolean;
+  onClick: () => void;
+}
+
+export default function RollPanel({ disabled = false, onClick }: IProps) {
   return (
-    <StyledRollPanel primary={true}>
+    <StyledRollPanel primary={true} disabled={disabled} onClick={onClick}>
       <Emoji emoji="🎲" size={72} />
     </StyledRollPanel>
   );
