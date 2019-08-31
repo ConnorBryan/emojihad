@@ -14,7 +14,7 @@ export default function IntroductionScreen() {
         {
           name: "Play Now",
           positive: true,
-          onClick: () => history.push("/select-a-profile")
+          onClick: () => history.push("/profile-information")
         }
       ]}
     >

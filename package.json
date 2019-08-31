@@ -43,8 +43,10 @@
     "@types/lodash.flatten": "^4.4.6",
     "@types/storybook__react": "^4.0.2",
     "@types/styled-components": "^4.1.16",
+    "@types/yup": "^0.26.23",
     "awesome-typescript-loader": "^5.2.1",
     "chance": "^1.0.18",
+    "formik": "^2.0.1-rc.13",
     "lodash.chunk": "^4.2.0",
     "lodash.flatten": "^4.4.0",
     "react-docgen-typescript-loader": "^3.1.1",
@@ -52,6 +54,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.0",
     "styled-components": "^4.3.2",
-    "use-react-router": "^1.0.7"
+    "use-react-router": "^1.0.7",
+    "yup": "^0.27.0"
   }
 }

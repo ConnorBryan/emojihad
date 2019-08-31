@@ -4,11 +4,11 @@ import styled from "styled-components";
 
 interface IProps {
   title: string;
-  actions: any;
+  actions?: any;
   children: any;
 }
 
-export default function Screen({ title, actions, children }: IProps) {
+export default function Screen({ title, actions = [], children }: IProps) {
   return (
     <Container>
       <StyledScreen>
