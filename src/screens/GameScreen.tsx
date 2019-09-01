@@ -23,7 +23,8 @@ export default function GameScreen() {
         <Badge
           tint="❤️"
           emoji="🧙‍♂️"
-          name="Connor"
+          profileName="Connor"
+          organizationName="The Guys"
           counts={{
             experience: 100,
             allies: 5,

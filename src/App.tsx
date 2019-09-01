@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import {
   GameScreen,
@@ -10,7 +10,7 @@ import {
 
 export default function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Switch>
         <Route exact path="/" component={IntroductionScreen} />
         <Route
@@ -21,6 +21,6 @@ export default function App() {
         <Route exact path="/select-a-profile" component={SelectProfileScreen} />
         <Route exact path="/game" component={GameScreen} />
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 }
