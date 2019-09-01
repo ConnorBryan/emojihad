@@ -4,6 +4,7 @@ export * from "./DiceRoller";
 export * from "./Die";
 export * from "./Emoji";
 export * from "./EntityCard";
+export * from "./ProtectedRoute";
 export * from "./RollPanel";
 export * from "./Screen";
 export * from "./TextField";
