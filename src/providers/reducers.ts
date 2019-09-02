@@ -1,10 +1,5 @@
-export const count = (state = 0, action: { type: string }) => {
-  switch (action.type) {
-    case "INCREMENET":
-      return state + 1;
-    default:
-      return state;
-  }
-};
+import { gameReducer, initialState } from "./game";
 
-export default count;
+export const rootInitialState = initialState;
+
+export default gameReducer;

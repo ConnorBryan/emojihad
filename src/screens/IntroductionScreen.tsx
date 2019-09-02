@@ -1,11 +1,20 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useRouter from "use-react-router";
 
 import { Screen } from "../components";
+import { createNewPlayer, resetGame } from "../providers";
 
 export default function IntroductionScreen() {
+  const dispatch = useDispatch();
   const { history } = useRouter();
+
+  function handlePlayNow() {
+    dispatch(resetGame());
+    dispatch(createNewPlayer());
+    history.push("/profile-information");
+  }
 
   return (
     <Screen
@@ -14,7 +23,7 @@ export default function IntroductionScreen() {
         {
           name: "Play Now",
           positive: true,
-          onClick: () => history.push("/profile-information")
+          onClick: handlePlayNow
         }
       ]}
     >

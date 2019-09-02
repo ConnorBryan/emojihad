@@ -1,23 +1,6 @@
 export type Condition = "🚫👁" | "🚫👂";
 
-export type Emoji =
-  // Allies
-  | "😀"
-
-  // Profiles
-  | "👶"
-  | "👧"
-  | "🧒"
-  | "🧙‍♂️"
-
-  // Spaces
-  | "⚫️"
-  | "⚪️"
-  | "🔵"
-  | "🔴"
-  | "🆚"
-
-  // Dice
+export type DiceEmoji =
   | "0️⃣"
   | "1️⃣"
   | "️2️⃣"
@@ -28,7 +11,26 @@ export type Emoji =
   | "7️⃣"
   | "8️⃣"
   | "9️⃣"
-  | "🔟"
+  | "🔟";
+
+export type ProfileEmoji = "👶" | "👧" | "🧒" | "🧙‍♂️";
+
+export type Emoji =
+  // Allies
+  | "😀"
+
+  // Profiles
+  | ProfileEmoji
+
+  // Spaces
+  | "⚫️"
+  | "⚪️"
+  | "🔵"
+  | "🔴"
+  | "🆚"
+
+  // Dice
+  | DiceEmoji
 
   // Effects
   | "💥"
@@ -47,7 +49,7 @@ export type Emoji =
   | "✖️"
   | "🎲";
 
-export type Tint = "❤️" | "💙" | "💚" | "💜";
+export type Tint = "none" | "red" | "blue" | "green" | "purple";
 
 export type Space = "🔵" | "🔴" | "⚪️";
 
@@ -69,6 +71,8 @@ export interface IEntityWithExperience extends IEntity {
 
 export interface IProfile extends IEntityWithExperience {
   tint: Tint;
+  organizationName: string;
+  emoji: ProfileEmoji;
   allies: string[];
   cash: number;
   stars: number;
@@ -124,19 +128,6 @@ export interface IDie {
   sides: number[];
 }
 
-export type DieSide =
-  | "0️⃣"
-  | "1️⃣"
-  | "️2️⃣"
-  | "3️⃣"
-  | "4️⃣"
-  | "5️⃣"
-  | "6️⃣"
-  | "7️⃣"
-  | "8️⃣"
-  | "9️⃣"
-  | "🔟";
-
 export interface IProfileCharacterAbility {
   name: string;
   description: string;
@@ -144,7 +135,20 @@ export interface IProfileCharacterAbility {
 }
 
 export interface IProfileCharacter {
-  emoji: Emoji;
+  emoji: ProfileEmoji;
   name: string;
   abilities: IProfileCharacterAbility[];
+}
+
+export interface IPlayerState {
+  uuid: string;
+  profileId: string;
+}
+
+export interface IGameState {
+  player: IPlayerState;
+  profiles: INormalizedProfiles;
+  allies: INormalizedAllies;
+  resources: INormalizedResources;
+  round: number;
 }

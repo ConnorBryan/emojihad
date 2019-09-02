@@ -1,6 +1,6 @@
-import { DieSide } from "../types";
+import { DiceEmoji } from "../types";
 
-export const sideLookup: Record<string, DieSide> = {
+export const sideLookup: Record<string, DiceEmoji> = {
   0: "0️⃣",
   1: "1️⃣",
   2: "️2️⃣",

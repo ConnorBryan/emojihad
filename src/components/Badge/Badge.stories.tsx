@@ -5,7 +5,7 @@ import Badge from "./Badge";
 import { Tint } from "../../types";
 
 storiesOf("Badge", module).add("basic", () =>
-  (["❤️", "💙", "💚", "💜"] as Tint[]).map(tint => (
+  (["none", "red", "blue", "green", "purple"] as Tint[]).map(tint => (
     <Badge
       tint={tint}
       emoji="🧙‍♂️"

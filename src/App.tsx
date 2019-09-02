@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import { ProtectedRoute } from "./components";
 import {
   GameScreen,
   IntroductionScreen,
@@ -10,8 +9,6 @@ import {
 } from "./screens";
 
 export default function App() {
-  const condition = false;
-
   return (
     <BrowserRouter>
       <Switch>
@@ -21,13 +18,7 @@ export default function App() {
           path="/profile-information"
           component={ProfileInformationScreen}
         />
-        <ProtectedRoute
-          exact
-          condition={condition}
-          path="/select-a-profile"
-          fallbackPath="/profile-information"
-          component={SelectProfileScreen}
-        />
+        <Route exact path="/select-a-profile" component={SelectProfileScreen} />
         <Route exact path="/game" component={GameScreen} />
       </Switch>
     </BrowserRouter>

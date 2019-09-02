@@ -1,15 +1,20 @@
 import { Form, Formik } from "formik";
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import useRouter from "use-react-router";
 import * as Yup from "yup";
 
 import { Screen, TextField } from "../components";
+import { updatePlayerName, updatePlayerOrganizationName } from "../providers";
 
 export default function ProfileInformationScreen() {
+  const dispatch = useDispatch();
   const { history } = useRouter();
 
-  function handleFormSubmit() {
+  function handleFormSubmit({ profileName, organizationName }: any) {
+    dispatch(updatePlayerName(profileName));
+    dispatch(updatePlayerOrganizationName(organizationName));
     history.push("/select-a-profile");
   }
 

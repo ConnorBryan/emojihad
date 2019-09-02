@@ -21,7 +21,7 @@ export default function GameScreen() {
       <WorldMap map={map} />
       <StyledBadgeWrapper>
         <Badge
-          tint="❤️"
+          tint="red"
           emoji="🧙‍♂️"
           profileName="Connor"
           organizationName="The Guys"

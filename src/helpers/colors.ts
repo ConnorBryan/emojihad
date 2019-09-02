@@ -1,8 +1,9 @@
 import { Tint } from "../types";
 
 export const tintColorLookup: Record<Tint, string> = {
-  "❤️": "red",
-  "💙": "blue",
-  "💚": "green",
-  "💜": "purple"
+  none: "none",
+  red: "red",
+  blue: "blue",
+  green: "green",
+  purple: "purple"
 };

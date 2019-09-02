@@ -1,15 +1,23 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import useRouter from "use-react-router";
 
 import { Emoji, Screen } from "../components";
 import { getAllProfiles, styleWhen } from "../helpers";
+import { updatePlayerEmoji } from "../providers";
 
 export default function SelectProfileScreen() {
-  const [activeProfileIndex, updateActiveProfileIndex] = useState(0);
+  const dispatch = useDispatch();
   const { history } = useRouter();
+  const [activeProfileIndex, updateActiveProfileIndex] = useState(0);
   const profiles = getAllProfiles();
   const activeProfile = profiles[activeProfileIndex];
+
+  function handleGo() {
+    dispatch(updatePlayerEmoji(activeProfile.emoji));
+    history.push("/game");
+  }
 
   return (
     <Screen
@@ -18,12 +26,12 @@ export default function SelectProfileScreen() {
         {
           name: "Back",
           negative: true,
-          onClick: () => history.push("/")
+          onClick: () => history.push("/profile-information")
         },
         {
           name: "Go",
           positive: true,
-          onClick: () => history.push("/game")
+          onClick: handleGo
         }
       ]}
     >
