@@ -76,6 +76,7 @@ export interface IProfile extends IEntityWithExperience {
   allies: string[];
   cash: number;
   stars: number;
+  rounds: number;
 }
 
 export type INormalizedProfiles = INormalizedEntities<IProfile>;

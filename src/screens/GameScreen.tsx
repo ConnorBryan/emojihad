@@ -1,11 +1,23 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Button, Icon, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 
 import { Badge, Box, DiceRoller, RollPanel, WorldMap } from "../components";
 import { map } from "../logic";
+import { getPlayerBadgeStats } from "../providers";
 
 export default function GameScreen() {
+  const {
+    name,
+    organizationName,
+    emoji,
+    experience,
+    allies,
+    rounds,
+    cash,
+    stars
+  } = useSelector(getPlayerBadgeStats);
   const [rolling, updateRolling] = useState(false);
 
   function handleRoll() {
@@ -22,22 +34,22 @@ export default function GameScreen() {
       <StyledBadgeWrapper>
         <Badge
           tint="red"
-          emoji="🧙‍♂️"
-          profileName="Connor"
-          organizationName="The Guys"
+          emoji={emoji}
+          profileName={name}
+          organizationName={organizationName}
           counts={{
-            experience: 100,
-            allies: 5,
-            rounds: 10,
-            cash: 15,
-            stars: 20
+            experience,
+            allies,
+            rounds,
+            cash,
+            stars
           }}
         />
       </StyledBadgeWrapper>
       <StyledRollWrapper>
         {rolling ? (
           <DiceRoller
-            emoji="🧙‍♂️"
+            emoji={emoji}
             die={{
               sides: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
             }}

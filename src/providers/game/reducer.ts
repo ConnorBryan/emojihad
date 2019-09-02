@@ -45,7 +45,8 @@ export default makeReducer<IGameState>(initialState, {
         allies: [],
         cash: 10,
         stars: 0,
-        experience: 0
+        experience: 0,
+        rounds: 0
       };
     }),
 
