@@ -117,20 +117,12 @@ export interface ISpace {
   availableDirections?: IAvailableDirections;
 }
 
-export type WorldMap = ISpace[][];
+export type WorldMapLayout = ISpace[][];
 
 export interface IWorldMap extends IEntity {
   entryPoint: string;
-  layout: ISpace[][];
+  layout: WorldMapLayout;
   spaces: INormalizedEntities<ISpace>;
-}
-
-export interface IGame {
-  rounds: number;
-  map: WorldMap;
-  profiles: INormalizedProfiles;
-  allies: INormalizedAllies;
-  resources: INormalizedResources;
 }
 
 export interface IDie {
@@ -149,9 +141,16 @@ export interface IProfileCharacter {
   abilities: IProfileCharacterAbility[];
 }
 
+export enum PlayerStatus {
+  Waiting = "Waiting",
+  Moving = "Moving"
+}
+
 export interface IPlayerState {
   uuid: string;
   profileId: string;
+  status: PlayerStatus;
+  spacesToMove: number;
 }
 
 export interface IGameState {
@@ -161,4 +160,10 @@ export interface IGameState {
   resources: INormalizedResources;
   round: number;
   worldMap: IWorldMap;
+}
+
+export interface IMovementPath {
+  startingPoint: string;
+  path: string[];
+  endingPoint: null | string;
 }

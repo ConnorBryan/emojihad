@@ -1,7 +1,7 @@
 import produce from "immer";
 import uuid from "uuid/v4";
 
-import { IGameState } from "../../types";
+import { IGameState, PlayerStatus } from "../../types";
 import { worldMap } from "../../logic";
 import { makeReducer } from "../helpers";
 import { GameActions } from "./actions";
@@ -9,7 +9,9 @@ import { GameActions } from "./actions";
 export const initialState: IGameState = {
   player: {
     uuid: "",
-    profileId: ""
+    profileId: "",
+    status: PlayerStatus.Waiting,
+    spacesToMove: 0
   },
   profiles: {
     all: [],
@@ -76,5 +78,15 @@ export default makeReducer<IGameState>(initialState, {
   [GameActions.UPDATE_PLAYER_EMOJI]: (state, { emoji }: any) =>
     produce(state, draft => {
       draft.profiles.byId[draft.player.profileId].emoji = emoji;
+    }),
+
+  [GameActions.UPDATE_PLAYER_STATUS]: (state, { status }: any) =>
+    produce(state, draft => {
+      draft.player.status = status;
+    }),
+
+  [GameActions.UPDATE_PLAYER_SPACES_TO_MOVE]: (state, { spacesToMove }: any) =>
+    produce(state, draft => {
+      draft.player.spacesToMove = spacesToMove;
     })
 });

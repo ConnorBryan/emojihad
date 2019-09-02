@@ -1,10 +1,10 @@
 // Emojihad ©️ Connor Bryan 2019. All rights reserved.
 import flatten from "lodash.flatten";
 
-import { IGame, WorldMap, IWorldMap, ISpace } from "../types";
+import { WorldMapLayout, IWorldMap, ISpace } from "../types";
 import * as profiles from "./profiles";
 
-export const map: WorldMap = [
+export const layout: WorldMapLayout = [
   [
     {
       type: "🔵",
@@ -182,9 +182,9 @@ export const map: WorldMap = [
 export const worldMap: IWorldMap = {
   uuid: "1",
   name: "Default Map",
-  layout: map,
+  layout,
   entryPoint: "1",
-  spaces: flatten(map).reduce(
+  spaces: flatten(layout).reduce(
     (prev, next) => {
       prev.all.push(next.uuid);
       prev.byId[next.uuid] = next;
@@ -199,22 +199,5 @@ export const worldMap: IWorldMap = {
     }
   )
 };
-
-export default {
-  rounds: 0,
-  map,
-  profiles: {
-    all: [],
-    byId: {}
-  },
-  allies: {
-    all: [],
-    byId: {}
-  },
-  resources: {
-    all: [],
-    byId: {}
-  }
-} as IGame;
 
 export { profiles };

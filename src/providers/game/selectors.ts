@@ -1,12 +1,23 @@
-import { IGameState, ISpace } from "../../types";
+import times from "lodash.times";
+
+import { IGameState, ISpace, PlayerStatus, IMovementPath } from "../../types";
+import {
+  getSpaceUp,
+  getSpaceRight,
+  getSpaceDown,
+  getSpaceLeft,
+  getYX
+} from "../../helpers";
 
 // #region Meta
 export const getRound = (state: IGameState) => state.round;
 // #endregion
 
 // #region Player
+export const getPlayer = (state: IGameState) => state.player;
+
 export const getPlayerProfile = (state: IGameState) =>
-  state.profiles.byId[state.player.profileId];
+  getProfiles(state).byId[getPlayer(state).profileId];
 
 export const getPlayerName = (state: IGameState) =>
   getPlayerProfile(state).name;
@@ -35,6 +46,9 @@ export const getPlayerCash = (state: IGameState) =>
 export const getPlayerStars = (state: IGameState) =>
   getPlayerProfile(state).stars;
 
+export const getPlayerLocation = (state: IGameState) =>
+  getPlayerProfile(state).location;
+
 export const getPlayerBadgeStats = (state: IGameState) => ({
   name: getPlayerName(state),
   organizationName: getPlayerOrganizationName(state),
@@ -45,6 +59,79 @@ export const getPlayerBadgeStats = (state: IGameState) => ({
   cash: getPlayerCash(state),
   stars: getPlayerStars(state)
 });
+
+export const getPlayerStatus = (state: IGameState) => getPlayer(state).status;
+
+export const getPlayerIsWaiting = (state: IGameState) =>
+  getPlayerStatus(state) === PlayerStatus.Waiting;
+
+export const getPlayerIsMoving = (state: IGameState) =>
+  getPlayerStatus(state) === PlayerStatus.Moving;
+
+export const getPlayerSpacesToMove = (state: IGameState) =>
+  getPlayer(state).spacesToMove;
+
+export const getPlayerMovementPath = (state: IGameState): IMovementPath => {
+  const status = getPlayerStatus(state);
+  const spacesToMove = getPlayerSpacesToMove(state);
+  const startingPoint = getPlayerLocation(state);
+  const layout = getWorldMapLayout(state);
+  const spaces = getWorldMapSpaces(state);
+
+  if (status !== PlayerStatus.Moving) {
+    return {
+      startingPoint,
+      path: [],
+      endingPoint: null
+    };
+  }
+
+  const path: string[] = [];
+  let activeSpaceId = startingPoint;
+  let endingPoint = null;
+
+  times(spacesToMove + 1, index => {
+    const { y: activeY, x: activeX } = getYX(activeSpaceId, layout);
+    const { availableDirections } = spaces.byId[activeSpaceId];
+
+    if (index === spacesToMove) {
+      // There are no more spaces left to move; this is the endpoint.
+      endingPoint = activeSpaceId;
+      return;
+    } else if (availableDirections) {
+      if (availableDirections.up) {
+        const space = getSpaceUp(layout, activeY, activeX)!;
+        path.push(space.uuid);
+        activeSpaceId = space.uuid;
+        return;
+      }
+      if (availableDirections.right) {
+        const space = getSpaceRight(layout, activeY, activeX)!;
+        path.push(space.uuid);
+        activeSpaceId = space.uuid;
+        return;
+      }
+      if (availableDirections.down) {
+        const space = getSpaceDown(layout, activeY, activeX)!;
+        path.push(space.uuid);
+        activeSpaceId = space.uuid;
+        return;
+      }
+      if (availableDirections.left) {
+        const space = getSpaceLeft(layout, activeY, activeX)!;
+        path.push(space.uuid);
+        activeSpaceId = space.uuid;
+        return;
+      }
+    }
+  });
+
+  return {
+    startingPoint,
+    path,
+    endingPoint
+  };
+};
 // #endregion
 
 // #region Profiles
@@ -58,7 +145,12 @@ export const getWorldMap = (state: IGameState) => state.worldMap;
 export const getWorldMapLayout = (state: IGameState) =>
   getWorldMap(state).layout;
 
-export const getWorldMapSpaces = (state: IGameState) => {
+export const getWorldMapSpaces = (
+  state: IGameState
+): {
+  all: string[];
+  byId: Record<string, ISpace>;
+} => {
   const profiles = getProfiles(state);
   const { all, byId } = getWorldMap(state).spaces;
 

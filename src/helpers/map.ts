@@ -1,15 +1,19 @@
-import { WorldMap } from "../types";
+import { WorldMapLayout } from "../types";
 
-export const getMaximumDistance = (map: WorldMap) => {
+export const getMaximumDistance = (map: WorldMapLayout) => {
   const maxY = map.length - 1;
   const maxX = map[0].length - 1;
 
   return { maxY, maxX };
 };
 
-export const getSpaceUp = (map: WorldMap, fromY: number, fromX: number) => {
+export const getSpaceUp = (
+  layout: WorldMapLayout,
+  fromY: number,
+  fromX: number
+) => {
   try {
-    const spaceData = map[fromY - 1][fromX];
+    const spaceData = layout[fromY - 1][fromX];
 
     return spaceData.type === "⚪️" ? null : spaceData;
   } catch {
@@ -17,15 +21,23 @@ export const getSpaceUp = (map: WorldMap, fromY: number, fromX: number) => {
   }
 };
 
-export const getSpaceRight = (map: WorldMap, fromY: number, fromX: number) => {
-  const spaceData = map[fromY][fromX + 1];
+export const getSpaceRight = (
+  layout: WorldMapLayout,
+  fromY: number,
+  fromX: number
+) => {
+  const spaceData = layout[fromY][fromX + 1];
 
   return spaceData && spaceData.type === "⚪️" ? null : spaceData;
 };
 
-export const getSpaceDown = (map: WorldMap, fromY: number, fromX: number) => {
+export const getSpaceDown = (
+  layout: WorldMapLayout,
+  fromY: number,
+  fromX: number
+) => {
   try {
-    const spaceData = map[fromY + 1][fromX];
+    const spaceData = layout[fromY + 1][fromX];
 
     return spaceData.type === "⚪️" ? null : spaceData;
   } catch {
@@ -33,8 +45,31 @@ export const getSpaceDown = (map: WorldMap, fromY: number, fromX: number) => {
   }
 };
 
-export const getSpaceLeft = (map: WorldMap, fromY: number, fromX: number) => {
-  const spaceData = map[fromY][fromX - 1];
+export const getSpaceLeft = (
+  layout: WorldMapLayout,
+  fromY: number,
+  fromX: number
+) => {
+  const spaceData = layout[fromY][fromX - 1];
 
   return spaceData && spaceData.type === "⚪️" ? null : spaceData;
+};
+
+export const getYX = (uuid: string, layout: WorldMapLayout) => {
+  let y, x;
+
+  layout.forEach((row, yIndex) =>
+    row.forEach((space, xIndex) => {
+      if (space.uuid === uuid) {
+        y = yIndex;
+        x = xIndex;
+      }
+    })
+  );
+
+  if (y == null || x == null) {
+    throw new Error(`Space#${uuid} not found in layout.`);
+  }
+
+  return { y, x };
 };

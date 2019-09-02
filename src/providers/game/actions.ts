@@ -1,11 +1,13 @@
-import { ProfileEmoji } from "../../types";
+import { ProfileEmoji, PlayerStatus } from "../../types";
 
 export const GameActions = {
   RESET_GAME: "RESET_GAME",
   CREATE_NEW_PLAYER: "CREATE_NEW_PLAYER",
   UPDATE_PLAYER_NAME: "UPDATE_PLAYER_NAME",
   UPDATE_PLAYER_ORGANIZATION_NAME: "UPDATE_PLAYER_ORGANIZATION_NAME",
-  UPDATE_PLAYER_EMOJI: "UPDATE_PLAYER_EMOJI"
+  UPDATE_PLAYER_EMOJI: "UPDATE_PLAYER_EMOJI",
+  UPDATE_PLAYER_STATUS: "UPDATE_PLAYER_STATUS",
+  UPDATE_PLAYER_SPACES_TO_MOVE: "UPDATE_PLAYER_SPACES_TO_MOVE"
 };
 
 interface IResetGameAction {
@@ -31,18 +33,29 @@ interface IUpdatePlayerEmoji {
   emoji: ProfileEmoji;
 }
 
+interface IUpdatePlayerStatus {
+  type: typeof GameActions.UPDATE_PLAYER_STATUS;
+  status: PlayerStatus;
+}
+
+interface IUpdatePlayerSpacesToMove {
+  type: typeof GameActions.UPDATE_PLAYER_SPACES_TO_MOVE;
+  spacesToMove: number;
+}
+
 export type GameActions =
   | IResetGameAction
   | ICreateNewPlayerAction
   | IUpdatePlayerNameAction
   | IUpdatePlayerOrganizationNameAction
-  | IUpdatePlayerEmoji;
+  | IUpdatePlayerEmoji
+  | IUpdatePlayerStatus
+  | IUpdatePlayerSpacesToMove;
 
 // #region Meta
 export const resetGame = (): GameActions => ({
   type: GameActions.RESET_GAME
 });
-
 // #endregion
 
 // #region Player
@@ -66,4 +79,23 @@ export const updatePlayerEmoji = (emoji: ProfileEmoji): GameActions => ({
   emoji,
   type: GameActions.UPDATE_PLAYER_EMOJI
 });
+
+export const updatePlayerStatus = (status: PlayerStatus): GameActions => ({
+  status,
+  type: GameActions.UPDATE_PLAYER_STATUS
+});
+
+export const updatePlayerSpacesToMove = (
+  spacesToMove: number
+): GameActions => ({
+  spacesToMove,
+  type: GameActions.UPDATE_PLAYER_SPACES_TO_MOVE
+});
+// #endregion
+
+// #region Thunks
+export const playerRolledDice = (value: number) => (dispatch: any) => {
+  dispatch(updatePlayerStatus(PlayerStatus.Moving));
+  dispatch(updatePlayerSpacesToMove(value));
+};
 // #endregion

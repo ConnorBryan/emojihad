@@ -3,15 +3,32 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 import { styleWhen } from "../../helpers";
-import { ISpace, INormalizedEntities, IProfile } from "../../types";
+import {
+  ISpace,
+  INormalizedEntities,
+  IProfile,
+  IMovementPath
+} from "../../types";
 import { Emoji } from "../Emoji";
 
 interface IProps {
   layout: ISpace[][];
   spaces: INormalizedEntities<ISpace>;
+  playerIsMoving?: boolean;
+  movementPath?: IMovementPath;
 }
 
-export default function WorldMap({ layout, spaces }: IProps) {
+export default function WorldMap({
+  layout,
+  spaces,
+  playerIsMoving = false,
+  movementPath = {
+    startingPoint: "",
+    path: [],
+    endingPoint: null
+  }
+}: IProps) {
+  console.log("move path", movementPath);
   return (
     <StyledWorldMap columns={layout[0].length}>
       <div className="-inner">
@@ -20,7 +37,19 @@ export default function WorldMap({ layout, spaces }: IProps) {
           const isEmpty = type === "⚪️";
 
           return (
-            <StyledSpace key={index} isEmpty={isEmpty}>
+            <StyledSpace
+              key={index}
+              isEmpty={isEmpty}
+              isStartingPoint={
+                playerIsMoving && movementPath.startingPoint === uuid
+              }
+              isInMovementPath={
+                playerIsMoving && movementPath.path.includes(uuid)
+              }
+              isEndingPoint={
+                playerIsMoving && movementPath.endingPoint === uuid
+              }
+            >
               {!isEmpty && <Emoji emoji={type} size={64} />}
               {(profiles as IProfile[]).map(({ emoji, uuid: profileId }) => (
                 <Emoji
@@ -75,7 +104,7 @@ const StyledWorldMap = styled.div<{ columns: number }>`
 `;
 
 const StyledSpace = styled.div<any>`
-  ${({ isEmpty }) =>
+  ${({ isEmpty, isStartingPoint, isInMovementPath, isEndingPoint }) =>
     css`
       display: flex;
       align-items: center;
@@ -86,6 +115,24 @@ const StyledSpace = styled.div<any>`
       transition: background 0.2s ease-in-out;
       position: relative;
 
+      ${styleWhen(
+        isStartingPoint,
+        css`
+          background: blue;
+        `
+      )}
+      ${styleWhen(
+        isInMovementPath,
+        css`
+          background: orange;
+        `
+      )}
+      ${styleWhen(
+        isEndingPoint,
+        css`
+          background: red;
+        `
+      )}
       ${styleWhen(
         !isEmpty,
         css`

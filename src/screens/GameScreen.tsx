@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Button, Icon, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 
 import { Badge, Box, DiceRoller, RollPanel, WorldMap } from "../components";
-import { getPlayerBadgeStats, getWorldMapDisplay } from "../providers";
+import {
+  getPlayerBadgeStats,
+  getPlayerIsMoving,
+  getPlayerMovementPath,
+  getWorldMapDisplay,
+  playerRolledDice
+} from "../providers";
 
 export default function GameScreen() {
   const {
@@ -17,10 +23,14 @@ export default function GameScreen() {
     cash,
     stars
   } = useSelector(getPlayerBadgeStats);
+  const dispatch = useDispatch();
   const { layout, spaces } = useSelector(getWorldMapDisplay);
+  const playerIsMoving = useSelector(getPlayerIsMoving);
+  const movementPath = useSelector(getPlayerMovementPath);
   const [rolling, updateRolling] = useState(false);
-  console.log("spaces", spaces);
-  function handleRoll() {
+
+  function handleRoll(result: number) {
+    dispatch(playerRolledDice(result));
     updateRolling(false);
   }
 
@@ -30,7 +40,12 @@ export default function GameScreen() {
 
   return (
     <>
-      <WorldMap layout={layout} spaces={spaces} />
+      <WorldMap
+        layout={layout}
+        spaces={spaces}
+        playerIsMoving={playerIsMoving}
+        movementPath={movementPath}
+      />
       <StyledBadgeWrapper>
         <Badge
           tint="red"
