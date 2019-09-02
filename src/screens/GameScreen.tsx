@@ -4,8 +4,7 @@ import { Button, Icon, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 
 import { Badge, Box, DiceRoller, RollPanel, WorldMap } from "../components";
-import { map } from "../logic";
-import { getPlayerBadgeStats } from "../providers";
+import { getPlayerBadgeStats, getWorldMapDisplay } from "../providers";
 
 export default function GameScreen() {
   const {
@@ -18,8 +17,9 @@ export default function GameScreen() {
     cash,
     stars
   } = useSelector(getPlayerBadgeStats);
+  const { layout, spaces } = useSelector(getWorldMapDisplay);
   const [rolling, updateRolling] = useState(false);
-
+  console.log("spaces", spaces);
   function handleRoll() {
     updateRolling(false);
   }
@@ -30,7 +30,7 @@ export default function GameScreen() {
 
   return (
     <>
-      <WorldMap map={map} />
+      <WorldMap layout={layout} spaces={spaces} />
       <StyledBadgeWrapper>
         <Badge
           tint="red"

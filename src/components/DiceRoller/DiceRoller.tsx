@@ -48,35 +48,37 @@ export default function DiceRoller({ emoji, die, onRoll }: IProps) {
 
   return (
     <StyledDiceRoller jumping={jumping}>
-      <div className="-dieWrapper">
-        <Die
-          size={64}
-          value={value}
-          sides={die.sides}
-          rolling={rolling}
-          onUpdateValue={updateValue}
-        />
-        {showingExplosion && (
-          <Emoji className="-explosion" emoji="💥" size={48} />
-        )}
-      </div>
-      <div className="-emojiWrapper">
-        <Emoji className="-emoji" emoji={emoji} size={64} />
-      </div>
-      <Button
-        className="-button"
-        primary={true}
-        onClick={handleJump}
-        disabled={jumping || jumped}
-      >
-        <Emoji emoji="👊" size={24} />
-        <Emoji emoji="🎲" size={24} />
-      </Button>
+      <Segment>
+        <div className="-dieWrapper">
+          <Die
+            size={64}
+            value={value}
+            sides={die.sides}
+            rolling={rolling}
+            onUpdateValue={updateValue}
+          />
+          {showingExplosion && (
+            <Emoji className="-explosion" emoji="💥" size={48} />
+          )}
+        </div>
+        <div className="-emojiWrapper">
+          <Emoji className="-emoji" emoji={emoji} size={64} />
+        </div>
+        <Button
+          className="-button"
+          primary={true}
+          onClick={handleJump}
+          disabled={jumping || jumped}
+        >
+          <Emoji emoji="👊" size={24} />
+          <Emoji emoji="🎲" size={24} />
+        </Button>
+      </Segment>
     </StyledDiceRoller>
   );
 }
 
-const StyledDiceRoller = styled(Segment)<any>`
+const StyledDiceRoller = styled.div<any>`
   ${props => {
     const { jumping } = props;
 

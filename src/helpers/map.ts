@@ -11,7 +11,7 @@ export const getSpaceUp = (map: WorldMap, fromY: number, fromX: number) => {
   try {
     const spaceData = map[fromY - 1][fromX];
 
-    return spaceData.space === "⚪️" ? null : spaceData;
+    return spaceData.type === "⚪️" ? null : spaceData;
   } catch {
     return null;
   }
@@ -20,14 +20,14 @@ export const getSpaceUp = (map: WorldMap, fromY: number, fromX: number) => {
 export const getSpaceRight = (map: WorldMap, fromY: number, fromX: number) => {
   const spaceData = map[fromY][fromX + 1];
 
-  return spaceData && spaceData.space === "⚪️" ? null : spaceData;
+  return spaceData && spaceData.type === "⚪️" ? null : spaceData;
 };
 
 export const getSpaceDown = (map: WorldMap, fromY: number, fromX: number) => {
   try {
     const spaceData = map[fromY + 1][fromX];
 
-    return spaceData.space === "⚪️" ? null : spaceData;
+    return spaceData.type === "⚪️" ? null : spaceData;
   } catch {
     return null;
   }
@@ -36,5 +36,5 @@ export const getSpaceDown = (map: WorldMap, fromY: number, fromX: number) => {
 export const getSpaceLeft = (map: WorldMap, fromY: number, fromX: number) => {
   const spaceData = map[fromY][fromX - 1];
 
-  return spaceData && spaceData.space === "⚪️" ? null : spaceData;
+  return spaceData && spaceData.type === "⚪️" ? null : spaceData;
 };

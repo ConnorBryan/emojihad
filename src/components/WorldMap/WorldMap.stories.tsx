@@ -2,6 +2,8 @@ import { storiesOf } from "@storybook/react";
 import React from "react";
 import WorldMap from "./WorldMap";
 
-import { map } from "../../logic";
+import { worldMap } from "../../logic";
 
-storiesOf("WorldMap", module).add("basic", () => <WorldMap map={map} />);
+storiesOf("WorldMap", module).add("basic", () => (
+  <WorldMap layout={worldMap.layout} spaces={worldMap.spaces} />
+));

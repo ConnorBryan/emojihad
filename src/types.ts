@@ -77,6 +77,7 @@ export interface IProfile extends IEntityWithExperience {
   cash: number;
   stars: number;
   rounds: number;
+  location: string;
 }
 
 export type INormalizedProfiles = INormalizedEntities<IProfile>;
@@ -111,11 +112,18 @@ export interface IAvailableDirections {
 
 export interface ISpace {
   uuid: string;
-  space: Space;
+  type: Space;
+  profiles?: (string | IProfile)[];
   availableDirections?: IAvailableDirections;
 }
 
 export type WorldMap = ISpace[][];
+
+export interface IWorldMap extends IEntity {
+  entryPoint: string;
+  layout: ISpace[][];
+  spaces: INormalizedEntities<ISpace>;
+}
 
 export interface IGame {
   rounds: number;
@@ -152,4 +160,5 @@ export interface IGameState {
   allies: INormalizedAllies;
   resources: INormalizedResources;
   round: number;
+  worldMap: IWorldMap;
 }

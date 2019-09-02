@@ -2,6 +2,7 @@ import produce from "immer";
 import uuid from "uuid/v4";
 
 import { IGameState } from "../../types";
+import { worldMap } from "../../logic";
 import { makeReducer } from "../helpers";
 import { GameActions } from "./actions";
 
@@ -22,7 +23,8 @@ export const initialState: IGameState = {
     all: [],
     byId: {}
   },
-  round: 0
+  round: 0,
+  worldMap
 };
 
 export default makeReducer<IGameState>(initialState, {
@@ -46,8 +48,14 @@ export default makeReducer<IGameState>(initialState, {
         cash: 10,
         stars: 0,
         experience: 0,
-        rounds: 0
+        rounds: 0,
+        location: draft.worldMap.entryPoint
       };
+
+      // Add the player to the map.
+      draft.worldMap.spaces.byId[draft.worldMap.entryPoint].profiles!.push(
+        draft.player.profileId
+      );
     }),
 
   [GameActions.UPDATE_PLAYER_NAME]: (state, { name }: any) =>

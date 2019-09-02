@@ -3,23 +3,33 @@ import React from "react";
 import styled, { css } from "styled-components";
 
 import { styleWhen } from "../../helpers";
-import { WorldMap as WorldMapType } from "../../types";
+import { ISpace, INormalizedEntities, IProfile } from "../../types";
 import { Emoji } from "../Emoji";
 
 interface IProps {
-  map: WorldMapType;
+  layout: ISpace[][];
+  spaces: INormalizedEntities<ISpace>;
 }
 
-export default function WorldMap({ map }: IProps) {
+export default function WorldMap({ layout, spaces }: IProps) {
   return (
-    <StyledWorldMap columns={map[0].length}>
+    <StyledWorldMap columns={layout[0].length}>
       <div className="-inner">
-        {flatten(map).map(({ space }, index) => {
-          const isEmpty = space === "⚪️";
+        {flatten(layout).map(({ uuid }, index) => {
+          const { type, profiles } = spaces.byId[uuid];
+          const isEmpty = type === "⚪️";
 
           return (
             <StyledSpace key={index} isEmpty={isEmpty}>
-              {!isEmpty && <Emoji emoji={space} size={64} />}
+              {!isEmpty && <Emoji emoji={type} size={64} />}
+              {(profiles as IProfile[]).map(({ emoji, uuid: profileId }) => (
+                <Emoji
+                  key={profileId}
+                  emoji={emoji}
+                  size={48}
+                  className="-occupant"
+                />
+              ))}
             </StyledSpace>
           );
         })}
@@ -74,6 +84,7 @@ const StyledSpace = styled.div<any>`
       width: 80px;
       height: 80px;
       transition: background 0.2s ease-in-out;
+      position: relative;
 
       ${styleWhen(
         !isEmpty,
@@ -91,5 +102,9 @@ const StyledSpace = styled.div<any>`
           background: rgba(0, 0, 0, 0.1);
         `
       )}
+
+      .-occupant {
+        position: absolute;
+      }
     `}
 `;

@@ -1,4 +1,4 @@
-import { IGameState } from "../../types";
+import { IGameState, ISpace } from "../../types";
 
 // #region Meta
 export const getRound = (state: IGameState) => state.round;
@@ -44,5 +44,44 @@ export const getPlayerBadgeStats = (state: IGameState) => ({
   rounds: getPlayerRoundsPlayed(state),
   cash: getPlayerCash(state),
   stars: getPlayerStars(state)
+});
+// #endregion
+
+// #region Profiles
+export const getProfiles = (state: IGameState) => state.profiles;
+
+// #endregion
+
+// #region World Map
+export const getWorldMap = (state: IGameState) => state.worldMap;
+
+export const getWorldMapLayout = (state: IGameState) =>
+  getWorldMap(state).layout;
+
+export const getWorldMapSpaces = (state: IGameState) => {
+  const profiles = getProfiles(state);
+  const { all, byId } = getWorldMap(state).spaces;
+
+  return {
+    all,
+    byId: Object.entries(byId).reduce(
+      (prev: Record<string, ISpace>, [key, value]) => {
+        prev[key] = {
+          ...value,
+          profiles: (value.profiles || []).map(
+            profileId => profiles.byId[profileId as string]
+          )
+        };
+
+        return prev;
+      },
+      {}
+    )
+  };
+};
+
+export const getWorldMapDisplay = (state: IGameState) => ({
+  layout: getWorldMapLayout(state),
+  spaces: getWorldMapSpaces(state)
 });
 // #endregion
