@@ -9,82 +9,69 @@ export const layout: WorldMapLayout = [
     {
       type: "🔵",
       uuid: "1",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔴",
       uuid: "2",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "3",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "4",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "5",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "6",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "7",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔴",
       uuid: "8",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔴",
       uuid: "9",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "10",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "11",
-      availableDirections: { up: false, right: true, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: true, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "12",
-      availableDirections: { up: false, right: false, down: true, left: false },
-      profiles: []
+      availableDirections: { up: false, right: false, down: true, left: false }
     }
   ],
   [
     {
       type: "🔵",
       uuid: "13",
-      availableDirections: { up: true, right: false, down: false, left: false },
-      profiles: []
+      availableDirections: { up: true, right: false, down: false, left: false }
     },
     { type: "⚪️", uuid: "14" },
     { type: "⚪️", uuid: "15" },
@@ -99,82 +86,69 @@ export const layout: WorldMapLayout = [
     {
       type: "🔵",
       uuid: "24",
-      availableDirections: { up: false, right: false, down: true, left: false },
-      profiles: []
+      availableDirections: { up: false, right: false, down: true, left: false }
     }
   ],
   [
     {
       type: "🔵",
       uuid: "25",
-      availableDirections: { up: true, right: false, down: false, left: false },
-      profiles: []
+      availableDirections: { up: true, right: false, down: false, left: false }
     },
     {
       type: "🔴",
       uuid: "26",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "27",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "28",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "29",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "30",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "31",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔴",
       uuid: "32",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔴",
       uuid: "33",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "34",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "35",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     },
     {
       type: "🔵",
       uuid: "36",
-      availableDirections: { up: false, right: false, down: false, left: true },
-      profiles: []
+      availableDirections: { up: false, right: false, down: false, left: true }
     }
   ]
 ];

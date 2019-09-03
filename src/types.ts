@@ -113,7 +113,6 @@ export interface IAvailableDirections {
 export interface ISpace {
   uuid: string;
   type: Space;
-  profiles?: (string | IProfile)[];
   availableDirections?: IAvailableDirections;
 }
 
@@ -167,3 +166,5 @@ export interface IMovementPath {
   path: string[];
   endingPoint: null | string;
 }
+
+export type OccupiedSpaces = Record<string, IProfile[]>;

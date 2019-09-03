@@ -1,64 +1,62 @@
 import flatten from "lodash.flatten";
+import noop from "lodash.noop";
 import React from "react";
 import styled, { css } from "styled-components";
 
 import { styleWhen } from "../../helpers";
-import {
-  ISpace,
-  INormalizedEntities,
-  IProfile,
-  IMovementPath
-} from "../../types";
+import { ISpace, IMovementPath, OccupiedSpaces } from "../../types";
 import { Emoji } from "../Emoji";
 
 interface IProps {
   layout: ISpace[][];
-  spaces: INormalizedEntities<ISpace>;
   playerIsMoving?: boolean;
   movementPath?: IMovementPath;
+  occupiedSpaces?: null | OccupiedSpaces;
+  onPlayerMove?: (location: string) => void;
 }
 
 export default function WorldMap({
   layout,
-  spaces,
   playerIsMoving = false,
   movementPath = {
     startingPoint: "",
     path: [],
     endingPoint: null
-  }
+  },
+  onPlayerMove = noop,
+  occupiedSpaces = null
 }: IProps) {
-  console.log("move path", movementPath);
   return (
     <StyledWorldMap columns={layout[0].length}>
       <div className="-inner">
-        {flatten(layout).map(({ uuid }, index) => {
-          const { type, profiles } = spaces.byId[uuid];
+        {flatten(layout).map(({ uuid, type }) => {
           const isEmpty = type === "⚪️";
+          const isStartingPoint =
+            playerIsMoving && movementPath.startingPoint === uuid;
+          const isEndingPoint =
+            playerIsMoving && movementPath.endingPoint === uuid;
 
           return (
             <StyledSpace
-              key={index}
+              key={uuid}
               isEmpty={isEmpty}
-              isStartingPoint={
-                playerIsMoving && movementPath.startingPoint === uuid
-              }
+              isStartingPoint={isStartingPoint}
               isInMovementPath={
                 playerIsMoving && movementPath.path.includes(uuid)
               }
-              isEndingPoint={
-                playerIsMoving && movementPath.endingPoint === uuid
-              }
+              isEndingPoint={isEndingPoint}
+              onClick={isEndingPoint ? () => onPlayerMove(uuid) : noop}
             >
               {!isEmpty && <Emoji emoji={type} size={64} />}
-              {(profiles as IProfile[]).map(({ emoji, uuid: profileId }) => (
-                <Emoji
-                  key={profileId}
-                  emoji={emoji}
-                  size={48}
-                  className="-occupant"
-                />
-              ))}
+              {occupiedSpaces &&
+                occupiedSpaces[uuid].map(({ emoji, uuid: profileId }) => (
+                  <Emoji
+                    key={profileId}
+                    emoji={emoji}
+                    size={48}
+                    className="-occupant"
+                  />
+                ))}
             </StyledSpace>
           );
         })}

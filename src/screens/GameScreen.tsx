@@ -5,11 +5,14 @@ import styled from "styled-components";
 
 import { Badge, Box, DiceRoller, RollPanel, WorldMap } from "../components";
 import {
+  getOccupiedSpaces,
   getPlayerBadgeStats,
   getPlayerIsMoving,
   getPlayerMovementPath,
   getWorldMapDisplay,
-  playerRolledDice
+  playerMoved,
+  playerRolledDice,
+  updatePlayerLocation
 } from "../providers";
 
 export default function GameScreen() {
@@ -24,10 +27,16 @@ export default function GameScreen() {
     stars
   } = useSelector(getPlayerBadgeStats);
   const dispatch = useDispatch();
-  const { layout, spaces } = useSelector(getWorldMapDisplay);
+  const occupiedSpaces = useSelector(getOccupiedSpaces);
+  const { layout } = useSelector(getWorldMapDisplay);
   const playerIsMoving = useSelector(getPlayerIsMoving);
   const movementPath = useSelector(getPlayerMovementPath);
   const [rolling, updateRolling] = useState(false);
+
+  function handlePlayerMove(location: string) {
+    dispatch(updatePlayerLocation(location));
+    dispatch(playerMoved());
+  }
 
   function handleRoll(result: number) {
     dispatch(playerRolledDice(result));
@@ -42,9 +51,10 @@ export default function GameScreen() {
     <>
       <WorldMap
         layout={layout}
-        spaces={spaces}
         playerIsMoving={playerIsMoving}
         movementPath={movementPath}
+        onPlayerMove={handlePlayerMove}
+        occupiedSpaces={occupiedSpaces}
       />
       <StyledBadgeWrapper>
         <Badge

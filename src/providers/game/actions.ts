@@ -7,7 +7,8 @@ export const GameActions = {
   UPDATE_PLAYER_ORGANIZATION_NAME: "UPDATE_PLAYER_ORGANIZATION_NAME",
   UPDATE_PLAYER_EMOJI: "UPDATE_PLAYER_EMOJI",
   UPDATE_PLAYER_STATUS: "UPDATE_PLAYER_STATUS",
-  UPDATE_PLAYER_SPACES_TO_MOVE: "UPDATE_PLAYER_SPACES_TO_MOVE"
+  UPDATE_PLAYER_SPACES_TO_MOVE: "UPDATE_PLAYER_SPACES_TO_MOVE",
+  UPDATE_PLAYER_LOCATION: "UPDATE_PLAYER_LOCATION"
 };
 
 interface IResetGameAction {
@@ -43,6 +44,11 @@ interface IUpdatePlayerSpacesToMove {
   spacesToMove: number;
 }
 
+interface IUpdatePlayerLocation {
+  type: typeof GameActions.UPDATE_PLAYER_LOCATION;
+  location: string;
+}
+
 export type GameActions =
   | IResetGameAction
   | ICreateNewPlayerAction
@@ -50,7 +56,8 @@ export type GameActions =
   | IUpdatePlayerOrganizationNameAction
   | IUpdatePlayerEmoji
   | IUpdatePlayerStatus
-  | IUpdatePlayerSpacesToMove;
+  | IUpdatePlayerSpacesToMove
+  | IUpdatePlayerLocation;
 
 // #region Meta
 export const resetGame = (): GameActions => ({
@@ -91,11 +98,20 @@ export const updatePlayerSpacesToMove = (
   spacesToMove,
   type: GameActions.UPDATE_PLAYER_SPACES_TO_MOVE
 });
+
+export const updatePlayerLocation = (location: string): GameActions => ({
+  location,
+  type: GameActions.UPDATE_PLAYER_LOCATION
+});
 // #endregion
 
 // #region Thunks
 export const playerRolledDice = (value: number) => (dispatch: any) => {
   dispatch(updatePlayerStatus(PlayerStatus.Moving));
   dispatch(updatePlayerSpacesToMove(value));
+};
+
+export const playerMoved = () => (dispatch: any) => {
+  dispatch(updatePlayerStatus(PlayerStatus.Waiting));
 };
 // #endregion

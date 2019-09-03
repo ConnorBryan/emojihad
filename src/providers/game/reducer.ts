@@ -53,11 +53,6 @@ export default makeReducer<IGameState>(initialState, {
         rounds: 0,
         location: draft.worldMap.entryPoint
       };
-
-      // Add the player to the map.
-      draft.worldMap.spaces.byId[draft.worldMap.entryPoint].profiles!.push(
-        draft.player.profileId
-      );
     }),
 
   [GameActions.UPDATE_PLAYER_NAME]: (state, { name }: any) =>
@@ -88,5 +83,10 @@ export default makeReducer<IGameState>(initialState, {
   [GameActions.UPDATE_PLAYER_SPACES_TO_MOVE]: (state, { spacesToMove }: any) =>
     produce(state, draft => {
       draft.player.spacesToMove = spacesToMove;
+    }),
+
+  [GameActions.UPDATE_PLAYER_LOCATION]: (state, { location }: any) =>
+    produce(state, draft => {
+      draft.profiles.byId[draft.player.profileId].location = location;
     })
 });
