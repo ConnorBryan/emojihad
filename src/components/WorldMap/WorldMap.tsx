@@ -21,7 +21,7 @@ export default function WorldMap({
   movementPath = {
     startingPoint: "",
     path: [],
-    endingPoint: null
+    endingPoints: []
   },
   onPlayerMove = noop,
   occupiedSpaces = null
@@ -34,7 +34,7 @@ export default function WorldMap({
           const isStartingPoint =
             playerIsMoving && movementPath.startingPoint === uuid;
           const isEndingPoint =
-            playerIsMoving && movementPath.endingPoint === uuid;
+            playerIsMoving && movementPath.endingPoints.includes(uuid);
 
           return (
             <StyledSpace

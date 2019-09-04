@@ -5,234 +5,477 @@ import { WorldMapLayout, IWorldMap, ISpace } from "../types";
 import * as profiles from "./profiles";
 
 export const layout: WorldMapLayout = [
+  // Row 1
   [
     {
-      type: "🔵",
       uuid: "1",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔴",
       uuid: "2",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "3",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        right: "4"
+      }
     },
     {
-      type: "🔵",
       uuid: "4",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        right: "5"
+      }
     },
     {
-      type: "🔵",
       uuid: "5",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        right: "6"
+      }
     },
     {
-      type: "🔵",
       uuid: "6",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        right: "7"
+      }
     },
     {
-      type: "🔵",
       uuid: "7",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        right: "8"
+      }
     },
     {
-      type: "🔴",
       uuid: "8",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        right: "9"
+      }
     },
     {
-      type: "🔴",
       uuid: "9",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        right: "10"
+      }
     },
     {
-      type: "🔵",
       uuid: "10",
-      availableDirections: { up: false, right: true, down: false, left: true }
-    },
-    {
       type: "🔵",
+      availableDirections: {
+        down: "20"
+      }
+    }
+  ],
+
+  // Row 2
+  [
+    {
       uuid: "11",
-      availableDirections: { up: false, right: true, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "12",
-      availableDirections: { up: false, right: false, down: true, left: false }
-    }
-  ],
-  [
+      type: "⚪️"
+    },
     {
-      type: "🔵",
       uuid: "13",
-      availableDirections: { up: true, right: false, down: false, left: false }
-    },
-    { type: "⚪️", uuid: "14" },
-    { type: "⚪️", uuid: "15" },
-    { type: "⚪️", uuid: "16" },
-    { type: "⚪️", uuid: "17" },
-    { type: "⚪️", uuid: "18" },
-    { type: "⚪️", uuid: "19" },
-    { type: "⚪️", uuid: "20" },
-    { type: "⚪️", uuid: "21" },
-    { type: "⚪️", uuid: "22" },
-    { type: "⚪️", uuid: "23" },
-    {
       type: "🔵",
+      availableDirections: {
+        up: "3"
+      }
+    },
+    {
+      uuid: "14",
+      type: "⚪️"
+    },
+    {
+      uuid: "15",
+      type: "⚪️"
+    },
+    {
+      uuid: "16",
+      type: "⚪️"
+    },
+    {
+      uuid: "17",
+      type: "⚪️"
+    },
+    {
+      uuid: "18",
+      type: "⚪️"
+    },
+    {
+      uuid: "19",
+      type: "⚪️"
+    },
+    {
+      uuid: "20",
+      type: "🔵",
+      availableDirections: {
+        down: "30"
+      }
+    }
+  ],
+
+  // Row 3
+  [
+    {
+      uuid: "21",
+      type: "🔵",
+      availableDirections: {
+        right: "22"
+      }
+    },
+    {
+      uuid: "22",
+      type: "🔵",
+      availableDirections: {
+        right: "23"
+      }
+    },
+    {
+      uuid: "23",
+      type: "🔵",
+      availableDirections: {
+        up: "13"
+      }
+    },
+    {
       uuid: "24",
-      availableDirections: { up: false, right: false, down: true, left: false }
-    }
-  ],
-  [
+      type: "⚪️"
+    },
     {
-      type: "🔵",
       uuid: "25",
-      availableDirections: { up: true, right: false, down: false, left: false }
+      type: "⚪️"
     },
     {
-      type: "🔴",
       uuid: "26",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "27",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "28",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "29",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "30",
-      availableDirections: { up: false, right: false, down: false, left: true }
-    },
-    {
       type: "🔵",
+      availableDirections: {
+        down: "40"
+      }
+    }
+  ],
+
+  // Row 4
+  [
+    {
       uuid: "31",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        up: "21"
+      }
     },
     {
-      type: "🔴",
       uuid: "32",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔴",
       uuid: "33",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        up: "23"
+      }
     },
     {
-      type: "🔵",
       uuid: "34",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "35",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "36",
-      availableDirections: { up: false, right: false, down: true, left: true }
-    }
-  ],
-  [
+      type: "⚪️"
+    },
     {
-      type: "🔵",
       uuid: "37",
-      availableDirections: { up: true, right: false, down: false, left: false }
+      type: "⚪️"
     },
-    { type: "⚪️", uuid: "38" },
-    { type: "⚪️", uuid: "39" },
-    { type: "⚪️", uuid: "40" },
-    { type: "⚪️", uuid: "41" },
-    { type: "⚪️", uuid: "42" },
-    { type: "⚪️", uuid: "43" },
-    { type: "⚪️", uuid: "44" },
-    { type: "⚪️", uuid: "45" },
-    { type: "⚪️", uuid: "46" },
-    { type: "⚪️", uuid: "47" },
     {
+      uuid: "38",
+      type: "⚪️"
+    },
+    {
+      uuid: "39",
+      type: "⚪️"
+    },
+    {
+      uuid: "40",
       type: "🔵",
-      uuid: "48",
-      availableDirections: { up: false, right: false, down: true, left: false }
+      availableDirections: {
+        down: "50"
+      }
     }
   ],
+  // Row 5
   [
     {
+      uuid: "41",
       type: "🔵",
+      availableDirections: {
+        up: "31"
+      }
+    },
+    {
+      uuid: "42",
+      type: "⚪️"
+    },
+    {
+      uuid: "43",
+      type: "🔵",
+      availableDirections: {
+        up: "33"
+      }
+    },
+    {
+      uuid: "44",
+      type: "⚪️"
+    },
+    {
+      uuid: "45",
+      type: "⚪️"
+    },
+    {
+      uuid: "46",
+      type: "⚪️"
+    },
+    {
+      uuid: "47",
+      type: "🔵",
+      availableDirections: {
+        right: "48"
+      }
+    },
+    {
+      uuid: "48",
+      type: "🔵",
+      availableDirections: {
+        right: "49"
+      }
+    },
+    {
       uuid: "49",
-      availableDirections: { up: true, right: false, down: false, left: false }
+      type: "🔵",
+      availableDirections: {
+        right: "50"
+      }
     },
     {
-      type: "🔴",
       uuid: "50",
-      availableDirections: { up: false, right: false, down: false, left: true }
-    },
-    {
       type: "🔵",
+      availableDirections: {
+        down: "60"
+      }
+    }
+  ],
+
+  // Row 6
+  [
+    {
       uuid: "51",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        up: "41"
+      }
     },
     {
-      type: "🔵",
       uuid: "52",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "53",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        up: "43"
+      }
     },
     {
-      type: "🔵",
       uuid: "54",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "55",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔴",
       uuid: "56",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔴",
       uuid: "57",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        up: "47"
+      }
     },
     {
-      type: "🔵",
       uuid: "58",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "59",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "⚪️"
     },
     {
-      type: "🔵",
       uuid: "60",
-      availableDirections: { up: false, right: false, down: false, left: true }
+      type: "🔵",
+      availableDirections: {
+        down: "70"
+      }
+    }
+  ],
+  // Row 7
+  [
+    {
+      uuid: "61",
+      type: "🔵",
+      availableDirections: {
+        up: "51"
+      }
+    },
+    {
+      uuid: "62",
+      type: "⚪️"
+    },
+    {
+      uuid: "63",
+      type: "🔵",
+      availableDirections: {
+        up: "53"
+      }
+    },
+    {
+      uuid: "64",
+      type: "⚪️"
+    },
+    {
+      uuid: "65",
+      type: "⚪️"
+    },
+    {
+      uuid: "66",
+      type: "⚪️"
+    },
+    {
+      uuid: "67",
+      type: "🔵",
+      availableDirections: {
+        up: "57"
+      }
+    },
+    {
+      uuid: "68",
+      type: "⚪️"
+    },
+    {
+      uuid: "69",
+      type: "⚪️"
+    },
+    {
+      uuid: "70",
+      type: "🔵",
+      availableDirections: {
+        down: "80"
+      }
+    }
+  ],
+  // Row 8
+  [
+    {
+      uuid: "71",
+      type: "🔵",
+      availableDirections: {
+        up: "61"
+      }
+    },
+    {
+      uuid: "72",
+      type: "🔵",
+      availableDirections: {
+        left: "71"
+      }
+    },
+    {
+      uuid: "73",
+      type: "🔵",
+      availableDirections: {
+        up: "63",
+        left: "72"
+      }
+    },
+    {
+      uuid: "74",
+      type: "🔵",
+      availableDirections: {
+        left: "73"
+      }
+    },
+    {
+      uuid: "75",
+      type: "🔵",
+      availableDirections: {
+        left: "74"
+      }
+    },
+    {
+      uuid: "76",
+      type: "🔵",
+      availableDirections: {
+        left: "75"
+      }
+    },
+    {
+      uuid: "77",
+      type: "🔵",
+      availableDirections: {
+        up: "67",
+        left: "76"
+      }
+    },
+    {
+      uuid: "78",
+      type: "🔵",
+      availableDirections: {
+        left: "77"
+      }
+    },
+    {
+      uuid: "79",
+      type: "🔵",
+      availableDirections: {
+        left: "78"
+      }
+    },
+    {
+      uuid: "80",
+      type: "🔵",
+      availableDirections: {
+        left: "79"
+      }
     }
   ]
 ];
@@ -241,7 +484,7 @@ export const worldMap: IWorldMap = {
   uuid: "1",
   name: "Default Map",
   layout,
-  entryPoint: "1",
+  entryPoint: "80",
   spaces: flatten(layout).reduce(
     (prev, next) => {
       prev.all.push(next.uuid);

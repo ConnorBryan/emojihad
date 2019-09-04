@@ -1,18 +1,11 @@
-import times from "lodash.times";
-
 import {
   IGameState,
   PlayerStatus,
   IMovementPath,
-  OccupiedSpaces
+  OccupiedSpaces,
+  ISpace,
+  Directions
 } from "../../types";
-import {
-  getSpaceUp,
-  getSpaceRight,
-  getSpaceDown,
-  getSpaceLeft,
-  getYX
-} from "../../helpers";
 
 // #region Meta
 export const getRound = (state: IGameState) => state.round;
@@ -80,61 +73,94 @@ export const getPlayerMovementPath = (state: IGameState): IMovementPath => {
   const status = getPlayerStatus(state);
   const spacesToMove = getPlayerSpacesToMove(state);
   const startingPoint = getPlayerLocation(state);
-  const layout = getWorldMapLayout(state);
   const spaces = getWorldMapSpaces(state);
 
   if (status !== PlayerStatus.Moving) {
     return {
       startingPoint,
       path: [],
-      endingPoint: null
+      endingPoints: []
     };
   }
 
-  const path: string[] = [];
-  let activeSpaceId = startingPoint;
-  let endingPoint = null;
+  let path: string[] = [];
+  const end: string[] = [];
 
-  times(spacesToMove + 1, index => {
-    const { y: activeY, x: activeX } = getYX(activeSpaceId, layout);
-    const { availableDirections } = spaces.byId[activeSpaceId];
+  function isFork(space: ISpace) {
+    return Boolean(
+      space &&
+        space.availableDirections &&
+        Object.values(space.availableDirections).filter(Boolean).length > 1
+    );
+  }
 
-    if (index === spacesToMove) {
-      // There are no more spaces left to move; this is the endpoint.
-      endingPoint = activeSpaceId;
-      return;
-    } else if (availableDirections) {
-      if (availableDirections.up) {
-        const space = getSpaceUp(layout, activeY, activeX)!;
-        path.push(space.uuid);
-        activeSpaceId = space.uuid;
+  function isEndpoint(space: ISpace, direction: Directions, movesLeft: number) {
+    return (
+      !isFork(space) &&
+      movesLeft > 0 &&
+      space.availableDirections &&
+      !space.availableDirections[direction]
+    );
+  }
+
+  function traverse(
+    startingPoint: string,
+    direction: Directions,
+    movesRemaining: number
+  ) {
+    let currentSpace = spaces.byId[startingPoint];
+
+    while (movesRemaining && currentSpace.availableDirections) {
+      // Reassigning to the next space in the given direction.
+      const nextSpaceId = currentSpace.availableDirections[direction];
+
+      if (!nextSpaceId) {
         return;
       }
-      if (availableDirections.right) {
-        const space = getSpaceRight(layout, activeY, activeX)!;
-        path.push(space.uuid);
-        activeSpaceId = space.uuid;
+
+      currentSpace = spaces.byId[nextSpaceId];
+
+      if (!currentSpace) {
         return;
       }
-      if (availableDirections.down) {
-        const space = getSpaceDown(layout, activeY, activeX)!;
-        path.push(space.uuid);
-        activeSpaceId = space.uuid;
-        return;
-      }
-      if (availableDirections.left) {
-        const space = getSpaceLeft(layout, activeY, activeX)!;
-        path.push(space.uuid);
-        activeSpaceId = space.uuid;
-        return;
+
+      // Adding the space to the list of spaces traveled.
+      path.push(currentSpace.uuid);
+
+      // Subtract from the remaining moves.
+      movesRemaining--;
+
+      if (
+        isFork(currentSpace) ||
+        isEndpoint(currentSpace, direction, movesRemaining)
+      ) {
+        [
+          Directions.Up,
+          Directions.Right,
+          Directions.Down,
+          Directions.Left
+          // eslint-disable-next-line
+        ].forEach(direction =>
+          traverse(currentSpace.uuid, direction, movesRemaining)
+        );
       }
     }
-  });
+
+    // No more moves, add space to the end.
+    end.push(currentSpace.uuid);
+
+    // Ensure that the path doesn't also include the space.
+    path = path.filter(uuid => uuid !== currentSpace.uuid);
+  }
+
+  [Directions.Up, Directions.Right, Directions.Down, Directions.Left].forEach(
+    direction => traverse(startingPoint, direction, spacesToMove)
+  );
 
   return {
     startingPoint,
     path,
-    endingPoint
+    endingPoints: end
   };
 };
 // #endregion

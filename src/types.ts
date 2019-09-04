@@ -104,10 +104,10 @@ export interface IResource extends IEntity {}
 export type INormalizedResources = INormalizedEntities<IResource>;
 
 export interface IAvailableDirections {
-  up: boolean;
-  right: boolean;
-  down: boolean;
-  left: boolean;
+  up?: string;
+  right?: string;
+  down?: string;
+  left?: string;
 }
 
 export interface ISpace {
@@ -164,7 +164,14 @@ export interface IGameState {
 export interface IMovementPath {
   startingPoint: string;
   path: string[];
-  endingPoint: null | string;
+  endingPoints: string[];
 }
 
 export type OccupiedSpaces = Record<string, IProfile[]>;
+
+export enum Directions {
+  Up = "up",
+  Right = "right",
+  Down = "down",
+  Left = "left"
+}
