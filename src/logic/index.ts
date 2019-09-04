@@ -148,6 +148,90 @@ export const layout: WorldMapLayout = [
     {
       type: "🔵",
       uuid: "36",
+      availableDirections: { up: false, right: false, down: true, left: true }
+    }
+  ],
+  [
+    {
+      type: "🔵",
+      uuid: "37",
+      availableDirections: { up: true, right: false, down: false, left: false }
+    },
+    { type: "⚪️", uuid: "38" },
+    { type: "⚪️", uuid: "39" },
+    { type: "⚪️", uuid: "40" },
+    { type: "⚪️", uuid: "41" },
+    { type: "⚪️", uuid: "42" },
+    { type: "⚪️", uuid: "43" },
+    { type: "⚪️", uuid: "44" },
+    { type: "⚪️", uuid: "45" },
+    { type: "⚪️", uuid: "46" },
+    { type: "⚪️", uuid: "47" },
+    {
+      type: "🔵",
+      uuid: "48",
+      availableDirections: { up: false, right: false, down: true, left: false }
+    }
+  ],
+  [
+    {
+      type: "🔵",
+      uuid: "49",
+      availableDirections: { up: true, right: false, down: false, left: false }
+    },
+    {
+      type: "🔴",
+      uuid: "50",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "51",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "52",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "53",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "54",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "55",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔴",
+      uuid: "56",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔴",
+      uuid: "57",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "58",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "59",
+      availableDirections: { up: false, right: false, down: false, left: true }
+    },
+    {
+      type: "🔵",
+      uuid: "60",
       availableDirections: { up: false, right: false, down: false, left: true }
     }
   ]
