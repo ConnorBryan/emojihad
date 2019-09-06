@@ -6,3 +6,16 @@ export function styleWhen(
 ) {
   return condition ? style : "";
 }
+
+export function branchStyles(
+  condition: boolean,
+  {
+    truthy,
+    falsy
+  }: {
+    truthy: FlattenSimpleInterpolation;
+    falsy: FlattenSimpleInterpolation;
+  }
+) {
+  return condition ? truthy : falsy;
+}

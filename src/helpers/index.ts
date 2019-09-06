@@ -5,3 +5,4 @@ export * from "./dice";
 export * from "./map";
 export * from "./profiles";
 export * from "./styles";
+export * from "./utils";

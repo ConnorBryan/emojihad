@@ -8,11 +8,11 @@ import {
   getOccupiedSpaces,
   getPlayerBadgeStats,
   getPlayerIsMoving,
+  getPlayerMovementOptions,
   getPlayerMovementPath,
   getWorldMapDisplay,
   playerMoved,
-  playerRolledDice,
-  updatePlayerLocation
+  playerRolledDice
 } from "../providers";
 
 export default function GameScreen() {
@@ -31,11 +31,26 @@ export default function GameScreen() {
   const { layout } = useSelector(getWorldMapDisplay);
   const playerIsMoving = useSelector(getPlayerIsMoving);
   const movementPath = useSelector(getPlayerMovementPath);
+  const movementOptions = useSelector(getPlayerMovementOptions);
   const [rolling, updateRolling] = useState(false);
 
-  function handlePlayerMove(location: string) {
-    dispatch(updatePlayerLocation(location));
-    dispatch(playerMoved());
+  function handlePlayerMove(endingPoint: string) {
+    // Find the movement option that correlates with the ending point.
+    const potentialMovementOptions = movementOptions.filter(
+      option => option.slice(-1)[0] === endingPoint
+    );
+
+    if (potentialMovementOptions.length === 1) {
+      // There's only one path that could have led to the ending point, let's take it.
+      const [selectedMovementOption] = potentialMovementOptions;
+
+      dispatch(playerMoved(selectedMovementOption));
+    } else {
+      // There's multiple paths that could have led to the ending point.
+      // Show each and have the user confirm.
+
+      alert("Multiple ending options detected.");
+    }
   }
 
   function handleRoll(result: number) {

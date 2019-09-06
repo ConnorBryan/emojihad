@@ -1,3 +1,4 @@
+import { sleep } from "../../helpers";
 import { ProfileEmoji, PlayerStatus } from "../../types";
 
 export const GameActions = {
@@ -111,7 +112,15 @@ export const playerRolledDice = (value: number) => (dispatch: any) => {
   dispatch(updatePlayerSpacesToMove(value));
 };
 
-export const playerMoved = () => (dispatch: any) => {
+export const playerMoved = (movementOption: string[]) => async (
+  dispatch: any
+) => {
   dispatch(updatePlayerStatus(PlayerStatus.Waiting));
+
+  for (const spaceId of movementOption) {
+    dispatch(updatePlayerLocation(spaceId));
+
+    await sleep(150);
+  }
 };
 // #endregion

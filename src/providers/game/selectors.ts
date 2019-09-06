@@ -1,3 +1,6 @@
+import cloneDeep from "lodash.clonedeep";
+
+import { createLookup } from "../../helpers";
 import {
   IGameState,
   PlayerStatus,
@@ -159,9 +162,66 @@ export const getPlayerMovementPath = (state: IGameState): IMovementPath => {
 
   return {
     startingPoint,
-    path,
-    endingPoints: end
+    path: Array.from(new Set(path)),
+    endingPoints: Array.from(new Set(end))
   };
+};
+
+export const getPlayerMovementOptions = (state: IGameState) => {
+  const { startingPoint, path, endingPoints } = getPlayerMovementPath(state);
+  const spaces = getWorldMapSpaces(state);
+  const options: string[][] = [];
+  const endingPointLookup = createLookup(endingPoints);
+  const currentSpace = spaces.byId[startingPoint];
+
+  function traverse(currentSpace: ISpace, moves: any[]) {
+    moves.push(currentSpace.uuid);
+
+    const { availableDirections = {} } = currentSpace;
+    const directionLookup = createLookup(Object.values(availableDirections));
+    const availablePathSpaces = path.filter(
+      spaceId => directionLookup[spaceId] || endingPointLookup[spaceId]
+    );
+    const possibleEndingPoints = endingPoints.filter(
+      space => directionLookup[space]
+    );
+    const canEndMovement = possibleEndingPoints.length > 0;
+
+    if (canEndMovement) {
+      // We've finished!
+      if (possibleEndingPoints.length === 1) {
+        // There's only one place to end up.
+        const [endingSpace] = possibleEndingPoints;
+
+        options.push(moves.concat(endingSpace));
+      } else {
+        // There's multiple places to end up.
+        possibleEndingPoints.forEach(space => {
+          options.push(moves.concat(space));
+        });
+      }
+    } else {
+      // Our journey continues.
+      if (availablePathSpaces.length === 1) {
+        // Only one direction to go.
+        const [nextSpaceId] = availablePathSpaces;
+        const nextSpace = spaces.byId[nextSpaceId];
+
+        traverse(nextSpace, cloneDeep(moves));
+      } else {
+        // We hit a fork!
+        availablePathSpaces.forEach(spaceId => {
+          const nextSpace = spaces.byId[spaceId];
+
+          traverse(nextSpace, cloneDeep(moves));
+        });
+      }
+    }
+  }
+
+  traverse(currentSpace, []);
+
+  return options;
 };
 // #endregion
 

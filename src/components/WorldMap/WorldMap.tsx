@@ -1,9 +1,11 @@
 import flatten from "lodash.flatten";
 import noop from "lodash.noop";
 import React from "react";
+import { Popup } from "semantic-ui-react";
 import styled, { css } from "styled-components";
 
-import { styleWhen } from "../../helpers";
+import { EntityCard } from "../../components";
+import { branchStyles, styleWhen } from "../../helpers";
 import { ISpace, IMovementPath, OccupiedSpaces } from "../../types";
 import { Emoji } from "../Emoji";
 
@@ -11,7 +13,7 @@ interface IProps {
   layout: ISpace[][];
   playerIsMoving?: boolean;
   movementPath?: IMovementPath;
-  occupiedSpaces?: null | OccupiedSpaces;
+  occupiedSpaces?: OccupiedSpaces;
   onPlayerMove?: (location: string) => void;
 }
 
@@ -24,7 +26,7 @@ export default function WorldMap({
     endingPoints: []
   },
   onPlayerMove = noop,
-  occupiedSpaces = null
+  occupiedSpaces = {}
 }: IProps) {
   return (
     <StyledWorldMap columns={layout[0].length}>
@@ -37,27 +39,41 @@ export default function WorldMap({
             playerIsMoving && movementPath.endingPoints.includes(uuid);
 
           return (
-            <StyledSpace
+            <Popup
               key={uuid}
-              isEmpty={isEmpty}
-              isStartingPoint={isStartingPoint}
-              isInMovementPath={
-                playerIsMoving && movementPath.path.includes(uuid)
+              mouseEnterDelay={1000}
+              content={
+                <EntityCard
+                  title="Blue Space"
+                  kind="⚫️"
+                  emoji="🔵"
+                  description="A blue space."
+                />
               }
-              isEndingPoint={isEndingPoint}
-              onClick={isEndingPoint ? () => onPlayerMove(uuid) : noop}
-            >
-              {!isEmpty && <Emoji emoji={type} size={64} />}
-              {occupiedSpaces &&
-                occupiedSpaces[uuid].map(({ emoji, uuid: profileId }) => (
-                  <Emoji
-                    key={profileId}
-                    emoji={emoji}
-                    size={48}
-                    className="-occupant"
-                  />
-                ))}
-            </StyledSpace>
+              on={["hover"]}
+              trigger={
+                <StyledSpace
+                  isEmpty={isEmpty}
+                  isStartingPoint={isStartingPoint}
+                  isInMovementPath={
+                    playerIsMoving && movementPath.path.includes(uuid)
+                  }
+                  isEndingPoint={isEndingPoint}
+                  onClick={isEndingPoint ? () => onPlayerMove(uuid) : noop}
+                >
+                  {!isEmpty && <Emoji emoji={type} size={64} />}
+                  {occupiedSpaces[uuid] &&
+                    occupiedSpaces[uuid].map(({ emoji, uuid: profileId }) => (
+                      <Emoji
+                        key={profileId}
+                        emoji={emoji}
+                        size={48}
+                        className="-occupant"
+                      />
+                    ))}
+                </StyledSpace>
+              }
+            />
           );
         })}
       </div>
@@ -113,6 +129,18 @@ const StyledSpace = styled.div<any>`
       transition: background 0.2s ease-in-out;
       position: relative;
 
+      ${branchStyles(isEmpty, {
+        truthy: css`
+          background: rgba(0, 0, 0, 0.1);
+        `,
+        falsy: css`
+          cursor: pointer;
+
+          &:hover {
+            background: #ffe7bf;
+          }
+        `
+      })}
       ${styleWhen(
         isStartingPoint,
         css`
@@ -129,22 +157,6 @@ const StyledSpace = styled.div<any>`
         isEndingPoint,
         css`
           background: red;
-        `
-      )}
-      ${styleWhen(
-        !isEmpty,
-        css`
-          cursor: pointer;
-
-          &:hover {
-            background: #ffe7bf;
-          }
-        `
-      )}
-      ${styleWhen(
-        isEmpty,
-        css`
-          background: rgba(0, 0, 0, 0.1);
         `
       )}
 
