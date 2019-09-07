@@ -17,6 +17,8 @@ export const getRound = (state: IGameState) => state.round;
 // #region Player
 export const getPlayer = (state: IGameState) => state.player;
 
+export const getPlayerDieRoll = (state: IGameState) => getPlayer(state).dieRoll;
+
 export const getPlayerProfile = (state: IGameState) =>
   getProfiles(state).byId[getPlayer(state).profileId];
 
@@ -175,8 +177,6 @@ export const getPlayerMovementOptions = (state: IGameState) => {
   const currentSpace = spaces.byId[startingPoint];
 
   function traverse(currentSpace: ISpace, moves: any[]) {
-    moves.push(currentSpace.uuid);
-
     const { availableDirections = {} } = currentSpace;
     const directionLookup = createLookup(Object.values(availableDirections));
     const availablePathSpaces = path.filter(
@@ -186,6 +186,8 @@ export const getPlayerMovementOptions = (state: IGameState) => {
       space => directionLookup[space]
     );
     const canEndMovement = possibleEndingPoints.length > 0;
+
+    moves.push(currentSpace.uuid);
 
     if (canEndMovement) {
       // We've finished!

@@ -12,7 +12,8 @@ export const GameActions = {
   UPDATE_PLAYER_STATUS: "UPDATE_PLAYER_STATUS",
   UPDATE_PLAYER_SPACES_TO_MOVE: "UPDATE_PLAYER_SPACES_TO_MOVE",
   UPDATE_PLAYER_LOCATION: "UPDATE_PLAYER_LOCATION",
-  UPDATE_PLAYER_CASH: "UPDATE_PLAYER_CASH"
+  UPDATE_PLAYER_CASH: "UPDATE_PLAYER_CASH",
+  UPDATE_PLAYER_DIE_ROLL: "UPDATE_PLAYER_DIE_ROLL"
 };
 
 interface IResetGameAction {
@@ -58,6 +59,11 @@ interface IUpdatePlayerCash {
   amount: number;
 }
 
+interface IUpdatePlayerDieRoll {
+  type: typeof GameActions.UPDATE_PLAYER_DIE_ROLL;
+  dieRoll: null | number;
+}
+
 export type GameActions =
   | IResetGameAction
   | ICreateNewPlayerAction
@@ -67,7 +73,8 @@ export type GameActions =
   | IUpdatePlayerStatus
   | IUpdatePlayerSpacesToMove
   | IUpdatePlayerLocation
-  | IUpdatePlayerCash;
+  | IUpdatePlayerCash
+  | IUpdatePlayerDieRoll;
 
 // #region Meta
 export const resetGame = (): GameActions => ({
@@ -118,10 +125,18 @@ export const updatePlayerCash = (amount: number): GameActions => ({
   type: GameActions.UPDATE_PLAYER_CASH,
   amount
 });
+
+export const updatePlayerDieRoll = (dieRoll: null | number): GameActions => ({
+  dieRoll,
+  type: GameActions.UPDATE_PLAYER_CASH
+});
+
+export const clearPlayerDiceRoll = () => updatePlayerDieRoll(null);
 // #endregion
 
 // #region Thunks
 export const playerRolledDice = (value: number) => (dispatch: any) => {
+  dispatch(updatePlayerDieRoll(value));
   dispatch(updatePlayerStatus(PlayerStatus.Moving));
   dispatch(updatePlayerSpacesToMove(value));
 };
@@ -137,6 +152,7 @@ export const playerMoved = (movementOption: string[]) => async (
     await sleep(150);
   }
 
+  dispatch(clearPlayerDiceRoll());
   dispatch(handleMovementOutcome());
 };
 

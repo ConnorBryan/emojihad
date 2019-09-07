@@ -8,6 +8,7 @@ import { GameActions } from "./actions";
 
 export const initialState: IGameState = {
   player: {
+    dieRoll: null,
     uuid: "",
     profileId: "",
     status: PlayerStatus.Waiting,
@@ -96,5 +97,10 @@ export default makeReducer<IGameState>(initialState, {
       const newAmount = Math.max(0, userProfile.cash + amount);
 
       userProfile.cash = newAmount;
+    }),
+
+  [GameActions.UPDATE_PLAYER_DIE_ROLL]: (state, { dieRoll }: any) =>
+    produce(state, draft => {
+      draft.player.dieRoll = dieRoll;
     })
 });

@@ -7,6 +7,7 @@ import { Badge, Box, DiceRoller, RollPanel, WorldMap } from "../components";
 import {
   getOccupiedSpaces,
   getPlayerBadgeStats,
+  getPlayerDieRoll,
   getPlayerIsMoving,
   getPlayerMovementOptions,
   getPlayerMovementPath,
@@ -26,6 +27,7 @@ export default function GameScreen() {
     cash,
     stars
   } = useSelector(getPlayerBadgeStats);
+  const dieRoll = useSelector(getPlayerDieRoll);
   const dispatch = useDispatch();
   const occupiedSpaces = useSelector(getOccupiedSpaces);
   const { layout } = useSelector(getWorldMapDisplay);
@@ -37,7 +39,8 @@ export default function GameScreen() {
   function handlePlayerMove(endingPoint: string) {
     // Find the movement option that correlates with the ending point.
     const potentialMovementOptions = movementOptions.filter(
-      option => option.slice(-1)[0] === endingPoint
+      option =>
+        option.length - 1 === dieRoll && option.slice(-1)[0] === endingPoint
     );
 
     if (potentialMovementOptions.length === 1) {
@@ -48,7 +51,6 @@ export default function GameScreen() {
     } else {
       // There's multiple paths that could have led to the ending point.
       // Show each and have the user confirm.
-
       alert("Multiple ending options detected.");
     }
   }
