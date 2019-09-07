@@ -38,7 +38,7 @@ export const layout: WorldMapLayout = [
     },
     {
       uuid: "6",
-      type: "🔵",
+      type: "🔴",
       availableDirections: {
         right: "7"
       }
@@ -66,7 +66,7 @@ export const layout: WorldMapLayout = [
     },
     {
       uuid: "10",
-      type: "🔵",
+      type: "🔴",
       availableDirections: {
         down: "20"
       }
@@ -246,7 +246,7 @@ export const layout: WorldMapLayout = [
     },
     {
       uuid: "43",
-      type: "🔵",
+      type: "🔴",
       availableDirections: {
         up: "33"
       }
@@ -327,7 +327,7 @@ export const layout: WorldMapLayout = [
     },
     {
       uuid: "57",
-      type: "🔵",
+      type: "🔴",
       availableDirections: {
         up: "47"
       }

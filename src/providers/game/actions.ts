@@ -1,5 +1,7 @@
-import { sleep } from "../../helpers";
-import { ProfileEmoji, PlayerStatus } from "../../types";
+import config from "../../config";
+import { getNumber, sleep } from "../../helpers";
+import { ProfileEmoji, PlayerStatus, Space } from "../../types";
+import { getPlayerLocation, getWorldMapSpaces } from "./selectors";
 
 export const GameActions = {
   RESET_GAME: "RESET_GAME",
@@ -9,7 +11,8 @@ export const GameActions = {
   UPDATE_PLAYER_EMOJI: "UPDATE_PLAYER_EMOJI",
   UPDATE_PLAYER_STATUS: "UPDATE_PLAYER_STATUS",
   UPDATE_PLAYER_SPACES_TO_MOVE: "UPDATE_PLAYER_SPACES_TO_MOVE",
-  UPDATE_PLAYER_LOCATION: "UPDATE_PLAYER_LOCATION"
+  UPDATE_PLAYER_LOCATION: "UPDATE_PLAYER_LOCATION",
+  UPDATE_PLAYER_CASH: "UPDATE_PLAYER_CASH"
 };
 
 interface IResetGameAction {
@@ -50,6 +53,11 @@ interface IUpdatePlayerLocation {
   location: string;
 }
 
+interface IUpdatePlayerCash {
+  type: typeof GameActions.UPDATE_PLAYER_CASH;
+  amount: number;
+}
+
 export type GameActions =
   | IResetGameAction
   | ICreateNewPlayerAction
@@ -58,7 +66,8 @@ export type GameActions =
   | IUpdatePlayerEmoji
   | IUpdatePlayerStatus
   | IUpdatePlayerSpacesToMove
-  | IUpdatePlayerLocation;
+  | IUpdatePlayerLocation
+  | IUpdatePlayerCash;
 
 // #region Meta
 export const resetGame = (): GameActions => ({
@@ -104,6 +113,11 @@ export const updatePlayerLocation = (location: string): GameActions => ({
   location,
   type: GameActions.UPDATE_PLAYER_LOCATION
 });
+
+export const updatePlayerCash = (amount: number): GameActions => ({
+  type: GameActions.UPDATE_PLAYER_CASH,
+  amount
+});
 // #endregion
 
 // #region Thunks
@@ -122,5 +136,40 @@ export const playerMoved = (movementOption: string[]) => async (
 
     await sleep(150);
   }
+
+  dispatch(handleMovementOutcome());
+};
+
+export const handleMovementOutcome = () => (dispatch: any, getState: any) => {
+  const state = getState();
+  const spaces = getWorldMapSpaces(state);
+  const playerLocation = getPlayerLocation(state);
+  const { type } = spaces.byId[playerLocation];
+  const outcomes: Record<Space, () => void> = {
+    "🔵"() {
+      const gain = getNumber(
+        config.MINIMUM_BLUE_SPACE_CASH_GAIN,
+        config.MAXIMUM_BLUE_SPACE_CASH_GAIN
+      );
+
+      dispatch(updatePlayerCash(gain));
+    },
+    "🔴"() {
+      const loss = getNumber(
+        config.MAXIMUM_RED_SPACE_CASH_LOSS,
+        config.MINIMUM_RED_SPACE_CASH_LOSS
+      );
+
+      dispatch(updatePlayerCash(loss));
+    },
+    "⚪️"() {
+      throw new Error(
+        `Somehow, some way, some idiot landed on an unreachable space.`
+      );
+    }
+  };
+  const handleOutcome = outcomes[type];
+
+  handleOutcome();
 };
 // #endregion

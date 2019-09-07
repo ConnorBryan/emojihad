@@ -47,7 +47,7 @@ export default makeReducer<IGameState>(initialState, {
         organizationName: "",
         emoji: "👶",
         allies: [],
-        cash: 10,
+        cash: 2,
         stars: 0,
         experience: 0,
         rounds: 0,
@@ -88,5 +88,13 @@ export default makeReducer<IGameState>(initialState, {
   [GameActions.UPDATE_PLAYER_LOCATION]: (state, { location }: any) =>
     produce(state, draft => {
       draft.profiles.byId[draft.player.profileId].location = location;
+    }),
+
+  [GameActions.UPDATE_PLAYER_CASH]: (state, { amount }: any) =>
+    produce(state, draft => {
+      const userProfile = draft.profiles.byId[draft.player.profileId];
+      const newAmount = Math.max(0, userProfile.cash + amount);
+
+      userProfile.cash = newAmount;
     })
 });
