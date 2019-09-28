@@ -12,17 +12,15 @@ import {
   WorldMap
 } from "../components";
 import {
-  gameStarted,
-  gameStopped,
+  actions,
+  prepareActions,
   getOccupiedSpaces,
   getPlayerBadgeStats,
   getPlayer,
   getPlayerIsMoving,
   getPlayerMovementPath,
   getTimer,
-  getWorldMapDisplay,
-  handlePlayerMove,
-  playerRolledDice
+  getWorldMapDisplay
 } from "../providers";
 
 export default function GameScreen() {
@@ -36,7 +34,12 @@ export default function GameScreen() {
     cash,
     stars
   } = useSelector(getPlayerBadgeStats);
-  const dispatch = useDispatch();
+  const {
+    gameStarted,
+    gameStopped,
+    handlePlayerMove,
+    playerRolledDice
+  } = prepareActions(actions, useDispatch());
   const timer = useSelector(getTimer);
   const { hasRolled } = useSelector(getPlayer);
   const occupiedSpaces = useSelector(getOccupiedSpaces);
@@ -46,7 +49,7 @@ export default function GameScreen() {
   const [rolling, updateRolling] = useState(false);
 
   function handleRoll(result: number) {
-    dispatch(playerRolledDice(result));
+    playerRolledDice(result);
     updateRolling(false);
   }
 
@@ -55,12 +58,13 @@ export default function GameScreen() {
   }
 
   useEffect(() => {
-    dispatch(gameStarted());
+    gameStarted();
 
     return () => {
-      dispatch(gameStopped());
+      gameStopped();
     };
-  }, [dispatch]);
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>
@@ -69,7 +73,7 @@ export default function GameScreen() {
         layout={layout}
         playerIsMoving={playerIsMoving}
         movementPath={movementPath}
-        onPlayerMove={endingPoint => dispatch(handlePlayerMove(endingPoint))}
+        onPlayerMove={handlePlayerMove}
         occupiedSpaces={occupiedSpaces}
       />
       <StyledBadgeWrapper>

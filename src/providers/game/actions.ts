@@ -11,16 +11,11 @@ import {
   getPlayerProfile
 } from "./selectors";
 
-const RESET_GAME = "RESET_GAME";
-const CREATE_NEW_PLAYER = "CREATE_NEW_PLAYER";
-const UPDATE_PLAYER = "UPDATE_PLAYER";
-const UPDATE_PLAYER_PROFILE = "UPDATE_PLAYER_PROFILE";
-
 export const GameActions = {
-  RESET_GAME,
-  CREATE_NEW_PLAYER,
-  UPDATE_PLAYER,
-  UPDATE_PLAYER_PROFILE,
+  RESET_GAME: "RESET_GAME",
+  CREATE_NEW_PLAYER: "CREATE_NEW_PLAYER",
+  UPDATE_PLAYER: "UPDATE_PLAYER",
+  UPDATE_PLAYER_PROFILE: "UPDATE_PLAYER_PROFILE",
   UPDATE_TIMER: "UPDATE_TIMER"
 };
 
@@ -198,3 +193,18 @@ export const updatePlayerCash = (amount: number) => (
   dispatch(updatePlayerProfile({ cash: newAmount }));
 };
 // #endregion
+
+export const actions = {
+  resetGame,
+  updateTimer,
+  createNewPlayer,
+  updatePlayerProfile,
+  playerRolledDice,
+  handlePlayerMove,
+  clearPlayerDiceRoll,
+  gameStarted,
+  gameStopped,
+  handleMovementOutcome,
+  tickTimer,
+  updatePlayerCash
+};

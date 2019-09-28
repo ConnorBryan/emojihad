@@ -31,3 +31,4 @@ export default function configureStore() {
 }
 
 export * from "./game";
+export * from "./helpers";
