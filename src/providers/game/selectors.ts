@@ -217,6 +217,9 @@ export const getWorldMapLayout = (state: IGameState) =>
 export const getWorldMapSpaces = (state: IGameState) =>
   getWorldMap(state).spaces;
 
+export const getSpace = (state: IGameState, id: string) =>
+  getWorldMapSpaces(state).byId[id];
+
 export const getWorldMapDisplay = (state: IGameState) => ({
   layout: getWorldMapLayout(state),
   spaces: getWorldMapSpaces(state)

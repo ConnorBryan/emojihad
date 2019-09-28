@@ -1,7 +1,7 @@
 // Emojihad ©️ Connor Bryan 2019. All rights reserved.
 import flatten from "lodash.flatten";
 
-import { WorldMapLayout, IWorldMap, ISpace } from "../types";
+import { WorldMapLayout, IWorldMap, ISpace, Directions } from "../types";
 import * as profiles from "./profiles";
 
 export const layout: WorldMapLayout = [
@@ -85,14 +85,15 @@ export const layout: WorldMapLayout = [
     },
     {
       uuid: "13",
-      type: "🔵",
+      type: "▶️",
       availableDirections: {
         up: "3"
       }
     },
     {
       uuid: "14",
-      type: "⚪️"
+      type: "🕍",
+      facing: Directions.Left
     },
     {
       uuid: "15",
@@ -389,7 +390,7 @@ export const layout: WorldMapLayout = [
     },
     {
       uuid: "68",
-      type: "⚪️"
+      type: "🏦"
     },
     {
       uuid: "69",
@@ -458,7 +459,7 @@ export const layout: WorldMapLayout = [
     },
     {
       uuid: "78",
-      type: "🔵",
+      type: "🔼",
       availableDirections: {
         left: "77"
       }

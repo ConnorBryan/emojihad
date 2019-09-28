@@ -1,4 +1,4 @@
-import { WorldMapLayout } from "../types";
+import { ISpace, INormalizedEntities, Space, WorldMapLayout } from "../types";
 
 export const getMaximumDistance = (map: WorldMapLayout) => {
   const maxY = map.length - 1;
@@ -72,4 +72,23 @@ export const getYX = (uuid: string, layout: WorldMapLayout) => {
   }
 
   return { y, x };
+};
+
+export const isDirectionalSpace = (space: Space) =>
+  ["🔼", "▶️", "🔽", "◀️"].includes(space);
+
+export const findFixture = (
+  { uuid, type }: ISpace,
+  layout: WorldMapLayout,
+  { byId }: INormalizedEntities<ISpace>
+) => {
+  const { y, x } = getYX(uuid, layout);
+  const getter = {
+    "🔼": getSpaceUp,
+    "▶️": getSpaceRight,
+    "🔽": getSpaceDown,
+    "◀️": getSpaceLeft
+  };
+
+  return (getter as any)[type](layout, y, x);
 };

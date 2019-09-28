@@ -24,10 +24,7 @@ export type Emoji =
 
   // Spaces
   | "⚫️"
-  | "⚪️"
-  | "🔵"
-  | "🔴"
-  | "🆚"
+  | Space
 
   // Dice
   | DiceEmoji
@@ -51,7 +48,17 @@ export type Emoji =
 
 export type Tint = "none" | "red" | "blue" | "green" | "purple";
 
-export type Space = "🔵" | "🔴" | "⚪️";
+export type Space =
+  | "🔵"
+  | "🔴"
+  | "⚪️"
+  | "🆚"
+  | "🏦"
+  | "🕍"
+  | "🔼"
+  | "▶️"
+  | "🔽"
+  | "◀️";
 
 export type EntityKind = "⚫️";
 
@@ -114,6 +121,7 @@ export interface ISpace {
   uuid: string;
   type: Space;
   availableDirections?: IAvailableDirections;
+  facing?: Directions;
 }
 
 export type WorldMapLayout = ISpace[][];

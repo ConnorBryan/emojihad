@@ -1,14 +1,20 @@
 import differenceInSeconds from "date-fns/differenceInSeconds";
 
 import config from "../../config";
-import { getNumber, sleep } from "../../helpers";
-import { IPlayerState, PlayerStatus, Space, IProfile } from "../../types";
+import {
+  findFixture,
+  getNumber,
+  isDirectionalSpace,
+  sleep
+} from "../../helpers";
+import { IPlayerState, PlayerStatus, IProfile, ISpace } from "../../types";
 import {
   getTimer,
   getWorldMapSpaces,
   getPlayerMovementOptions,
   getPlayer,
-  getPlayerProfile
+  getPlayerProfile,
+  getWorldMapLayout
 } from "./selectors";
 
 export const GameActions = {
@@ -118,13 +124,27 @@ export const handlePlayerMove = (endingPoint: string) => (
   }
 };
 
-export const playerMoved = (movementOption: string[]) => async (
-  dispatch: any
+export const continueMovement = (movementOption: string[]) => async (
+  dispatch: any,
+  getState: any
 ) => {
-  dispatch(updatePlayer({ status: PlayerStatus.Waiting }));
+  const state = getState();
+  const layout = getWorldMapLayout(state);
+  const spaces = getWorldMapSpaces(state);
 
-  for (const spaceId of movementOption) {
-    dispatch(updatePlayerProfile({ location: spaceId }));
+  while (movementOption.length > 0) {
+    const nextSpaceId = movementOption.shift() as string;
+    const nextSpace = spaces.byId[nextSpaceId];
+
+    dispatch(updatePlayerProfile({ location: nextSpaceId }));
+
+    if (isDirectionalSpace(nextSpace.type)) {
+      const fixture = findFixture(nextSpace, layout, spaces);
+
+      const afterInteraction = () => dispatch(continueMovement(movementOption));
+
+      return dispatch(interactWithFixture(fixture as any, afterInteraction));
+    }
 
     await sleep(150);
   }
@@ -133,12 +153,26 @@ export const playerMoved = (movementOption: string[]) => async (
   dispatch(handleMovementOutcome());
 };
 
+export const playerMoved = (movementOption: string[]) => (dispatch: any) => {
+  dispatch(updatePlayer({ status: PlayerStatus.Waiting }));
+  dispatch(continueMovement(movementOption));
+};
+
+export const interactWithFixture = (
+  fixture: ISpace,
+  afterInteraction: () => void
+) => async (dispatch: any) => {
+  await sleep(0);
+  alert(`Interaction with ${fixture.type}`);
+  afterInteraction();
+};
+
 export const handleMovementOutcome = () => (dispatch: any, getState: any) => {
   const state = getState();
   const spaces = getWorldMapSpaces(state);
   const { location } = getPlayerProfile(state);
   const { type } = spaces.byId[location];
-  const outcomes: Record<Space, () => void> = {
+  const outcomes: Record<string, () => void> = {
     "🔵"() {
       const gain = getNumber(
         config.MINIMUM_BLUE_SPACE_CASH_GAIN,
@@ -154,16 +188,17 @@ export const handleMovementOutcome = () => (dispatch: any, getState: any) => {
       );
 
       dispatch(updatePlayerCash(loss));
-    },
-    "⚪️"() {
-      throw new Error(
-        `Somehow, some way, some idiot landed on an unreachable space.`
-      );
     }
   };
   const handleOutcome = outcomes[type];
 
-  handleOutcome();
+  if (handleOutcome) {
+    handleOutcome();
+  } else {
+    throw new Error(
+      `Somehow, some way, some idiot landed on an unreachable space.`
+    );
+  }
 };
 
 export const tickTimer = () => (dispatch: any, getState: any) => {

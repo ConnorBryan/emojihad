@@ -6,7 +6,7 @@ import styled, { css } from "styled-components";
 
 import { EntityCard } from "../../components";
 import { branchStyles, styleWhen } from "../../helpers";
-import { ISpace, IMovementPath, OccupiedSpaces } from "../../types";
+import { ISpace, IMovementPath, OccupiedSpaces, Directions } from "../../types";
 import { Emoji } from "../Emoji";
 
 interface IProps {
@@ -31,8 +31,9 @@ export default function WorldMap({
   return (
     <StyledWorldMap columns={layout[0].length}>
       <div className="-inner">
-        {flatten(layout).map(({ uuid, type }) => {
+        {flatten(layout).map(({ uuid, facing = {}, type }) => {
           const isEmpty = type === "⚪️";
+          const isFixture = ["🏦", "🕍"].includes(type);
           const isStartingPoint =
             playerIsMoving && movementPath.startingPoint === uuid;
           const isEndingPoint =
@@ -53,7 +54,9 @@ export default function WorldMap({
               on={["hover"]}
               trigger={
                 <StyledSpace
+                  facing={facing}
                   isEmpty={isEmpty}
+                  isFixture={isFixture}
                   isStartingPoint={isStartingPoint}
                   isInMovementPath={
                     playerIsMoving && movementPath.path.includes(uuid)
@@ -118,7 +121,14 @@ const StyledWorldMap = styled.div<{ columns: number }>`
 `;
 
 const StyledSpace = styled.div<any>`
-  ${({ isEmpty, isStartingPoint, isInMovementPath, isEndingPoint }) =>
+  ${({
+    isEmpty,
+    isFixture,
+    isStartingPoint,
+    isInMovementPath,
+    isEndingPoint,
+    facing
+  }) =>
     css`
       display: flex;
       align-items: center;
@@ -142,6 +152,12 @@ const StyledSpace = styled.div<any>`
         `
       })}
       ${styleWhen(
+        isFixture,
+        css`
+          background: darkbrown;
+        `
+      )}
+      ${styleWhen(
         isStartingPoint,
         css`
           background: blue;
@@ -157,6 +173,24 @@ const StyledSpace = styled.div<any>`
         isEndingPoint,
         css`
           background: red;
+        `
+      )}
+      ${styleWhen(
+        facing === Directions.Up,
+        css`
+          transform: rotate(180deg);
+        `
+      )}
+      ${styleWhen(
+        facing === Directions.Right,
+        css`
+          transform: rotate(270deg);
+        `
+      )}
+      ${styleWhen(
+        facing === Directions.Left,
+        css`
+          transform: rotate(90deg);
         `
       )}
 
