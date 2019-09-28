@@ -13,17 +13,16 @@ import {
 } from "../components";
 import {
   gameStarted,
+  gameStopped,
   getOccupiedSpaces,
   getPlayerBadgeStats,
-  getPlayerDieRoll,
+  getPlayer,
   getPlayerIsMoving,
-  getPlayerMovementOptions,
   getPlayerMovementPath,
   getTimer,
   getWorldMapDisplay,
-  playerMoved,
-  playerRolledDice,
-  tickTimer
+  handlePlayerMove,
+  playerRolledDice
 } from "../providers";
 
 export default function GameScreen() {
@@ -39,32 +38,12 @@ export default function GameScreen() {
   } = useSelector(getPlayerBadgeStats);
   const dispatch = useDispatch();
   const timer = useSelector(getTimer);
-  const dieRoll = useSelector(getPlayerDieRoll);
+  const { hasRolled } = useSelector(getPlayer);
   const occupiedSpaces = useSelector(getOccupiedSpaces);
   const { layout } = useSelector(getWorldMapDisplay);
   const playerIsMoving = useSelector(getPlayerIsMoving);
   const movementPath = useSelector(getPlayerMovementPath);
-  const movementOptions = useSelector(getPlayerMovementOptions);
   const [rolling, updateRolling] = useState(false);
-
-  function handlePlayerMove(endingPoint: string) {
-    // Find the movement option that correlates with the ending point.
-    const potentialMovementOptions = movementOptions.filter(
-      option =>
-        option.length - 1 === dieRoll && option.slice(-1)[0] === endingPoint
-    );
-
-    if (potentialMovementOptions.length === 1) {
-      // There's only one path that could have led to the ending point, let's take it.
-      const [selectedMovementOption] = potentialMovementOptions;
-
-      dispatch(playerMoved(selectedMovementOption));
-    } else {
-      // There's multiple paths that could have led to the ending point.
-      // Show each and have the user confirm.
-      alert("Multiple ending options detected.");
-    }
-  }
 
   function handleRoll(result: number) {
     dispatch(playerRolledDice(result));
@@ -78,17 +57,8 @@ export default function GameScreen() {
   useEffect(() => {
     dispatch(gameStarted());
 
-    function tick() {
-      dispatch(tickTimer());
-      tickingTimer = setTimeout(tick, 1000);
-    }
-
-    let tickingTimer = setTimeout(tick, 1000);
-
     return () => {
-      if (tickingTimer) {
-        clearTimeout(tickingTimer);
-      }
+      dispatch(gameStopped());
     };
   }, [dispatch]);
 
@@ -99,7 +69,7 @@ export default function GameScreen() {
         layout={layout}
         playerIsMoving={playerIsMoving}
         movementPath={movementPath}
-        onPlayerMove={handlePlayerMove}
+        onPlayerMove={endingPoint => dispatch(handlePlayerMove(endingPoint))}
         occupiedSpaces={occupiedSpaces}
       />
       <StyledBadgeWrapper>
@@ -127,7 +97,10 @@ export default function GameScreen() {
             onRoll={handleRoll}
           />
         ) : (
-          <RollPanel disabled={rolling} onClick={toggleRolling} />
+          <RollPanel
+            disabled={rolling || hasRolled || timer.remaining <= 0}
+            onClick={toggleRolling}
+          />
         )}
       </StyledRollWrapper>
       <StyledModal

@@ -5,7 +5,7 @@ import useRouter from "use-react-router";
 
 import { Emoji, Screen } from "../components";
 import { getAllProfiles, styleWhen } from "../helpers";
-import { updatePlayerEmoji } from "../providers";
+import { updatePlayerProfile } from "../providers";
 
 export default function SelectProfileScreen() {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export default function SelectProfileScreen() {
   const activeProfile = profiles[activeProfileIndex];
 
   function handleGo() {
-    dispatch(updatePlayerEmoji(activeProfile.emoji));
+    dispatch(updatePlayerProfile({ emoji: activeProfile.emoji }));
     history.push("/game");
   }
 

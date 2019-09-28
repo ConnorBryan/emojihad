@@ -19,67 +19,42 @@ export const getRound = (state: IGameState) => state.round;
 // #region Player
 export const getPlayer = (state: IGameState) => state.player;
 
-export const getPlayerDieRoll = (state: IGameState) => getPlayer(state).dieRoll;
-
 export const getPlayerProfile = (state: IGameState) =>
   getProfiles(state).byId[getPlayer(state).profileId];
 
-export const getPlayerName = (state: IGameState) =>
-  getPlayerProfile(state).name;
+export const getPlayerBadgeStats = (state: IGameState) => {
+  const {
+    name,
+    organizationName,
+    emoji,
+    experience,
+    allies,
+    rounds,
+    cash,
+    stars
+  } = getPlayerProfile(state);
 
-export const getPlayerOrganizationName = (state: IGameState) =>
-  getPlayerProfile(state).organizationName;
-
-export const getPlayerEmoji = (state: IGameState) =>
-  getPlayerProfile(state).emoji;
-
-export const getPlayerExperience = (state: IGameState) =>
-  getPlayerProfile(state).experience;
-
-export const getPlayerAllies = (state: IGameState) =>
-  getPlayerProfile(state).allies;
-
-export const getPlayerAllyCount = (state: IGameState) =>
-  getPlayerAllies(state).length;
-
-export const getPlayerRoundsPlayed = (state: IGameState) =>
-  getPlayerProfile(state).rounds;
-
-export const getPlayerCash = (state: IGameState) =>
-  getPlayerProfile(state).cash;
-
-export const getPlayerStars = (state: IGameState) =>
-  getPlayerProfile(state).stars;
-
-export const getPlayerLocation = (state: IGameState) =>
-  getPlayerProfile(state).location;
-
-export const getPlayerBadgeStats = (state: IGameState) => ({
-  name: getPlayerName(state),
-  organizationName: getPlayerOrganizationName(state),
-  emoji: getPlayerEmoji(state),
-  experience: getPlayerExperience(state),
-  allies: getPlayerAllyCount(state),
-  rounds: getPlayerRoundsPlayed(state),
-  cash: getPlayerCash(state),
-  stars: getPlayerStars(state)
-});
-
-export const getPlayerStatus = (state: IGameState) => getPlayer(state).status;
+  return {
+    name,
+    organizationName,
+    emoji,
+    experience,
+    allies: allies.length,
+    rounds,
+    cash,
+    stars
+  };
+};
 
 export const getPlayerIsWaiting = (state: IGameState) =>
-  getPlayerStatus(state) === PlayerStatus.Waiting;
+  getPlayer(state).status === PlayerStatus.Waiting;
 
 export const getPlayerIsMoving = (state: IGameState) =>
-  getPlayerStatus(state) === PlayerStatus.Moving;
-
-export const getPlayerSpacesToMove = (state: IGameState) =>
-  getPlayer(state).spacesToMove;
+  getPlayer(state).status === PlayerStatus.Moving;
 
 export const getPlayerMovementPath = (state: IGameState): IMovementPath => {
-  const status = getPlayerStatus(state);
-  const spacesToMove = getPlayerSpacesToMove(state);
-  const startingPoint = getPlayerLocation(state);
+  const { status, spacesToMove } = getPlayer(state);
+  const { location: startingPoint } = getPlayerProfile(state);
   const spaces = getWorldMapSpaces(state);
 
   if (status !== PlayerStatus.Moving) {

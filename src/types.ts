@@ -147,6 +147,7 @@ export enum PlayerStatus {
 
 export interface IPlayerState {
   dieRoll: null | number;
+  hasRolled: boolean;
   uuid: string;
   profileId: string;
   status: PlayerStatus;

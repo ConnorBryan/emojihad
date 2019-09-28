@@ -6,15 +6,14 @@ import useRouter from "use-react-router";
 import * as Yup from "yup";
 
 import { Screen, TextField } from "../components";
-import { updatePlayerName, updatePlayerOrganizationName } from "../providers";
+import { updatePlayerProfile } from "../providers";
 
 export default function ProfileInformationScreen() {
   const dispatch = useDispatch();
   const { history } = useRouter();
 
   function handleFormSubmit({ profileName, organizationName }: any) {
-    dispatch(updatePlayerName(profileName));
-    dispatch(updatePlayerOrganizationName(organizationName));
+    dispatch(updatePlayerProfile({ name: profileName, organizationName }));
     history.push("/select-a-profile");
   }
 

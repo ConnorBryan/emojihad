@@ -2,148 +2,34 @@ import differenceInSeconds from "date-fns/differenceInSeconds";
 
 import config from "../../config";
 import { getNumber, sleep } from "../../helpers";
-import { ProfileEmoji, PlayerStatus, Space } from "../../types";
-import { getPlayerLocation, getTimer, getWorldMapSpaces } from "./selectors";
+import { IPlayerState, PlayerStatus, Space, IProfile } from "../../types";
+import {
+  getTimer,
+  getWorldMapSpaces,
+  getPlayerMovementOptions,
+  getPlayer,
+  getPlayerProfile
+} from "./selectors";
+
+const RESET_GAME = "RESET_GAME";
+const CREATE_NEW_PLAYER = "CREATE_NEW_PLAYER";
+const UPDATE_PLAYER = "UPDATE_PLAYER";
+const UPDATE_PLAYER_PROFILE = "UPDATE_PLAYER_PROFILE";
 
 export const GameActions = {
-  RESET_GAME: "RESET_GAME",
-  CREATE_NEW_PLAYER: "CREATE_NEW_PLAYER",
-  UPDATE_PLAYER_NAME: "UPDATE_PLAYER_NAME",
-  UPDATE_PLAYER_ORGANIZATION_NAME: "UPDATE_PLAYER_ORGANIZATION_NAME",
-  UPDATE_PLAYER_EMOJI: "UPDATE_PLAYER_EMOJI",
-  UPDATE_PLAYER_STATUS: "UPDATE_PLAYER_STATUS",
-  UPDATE_PLAYER_SPACES_TO_MOVE: "UPDATE_PLAYER_SPACES_TO_MOVE",
-  UPDATE_PLAYER_LOCATION: "UPDATE_PLAYER_LOCATION",
-  UPDATE_PLAYER_CASH: "UPDATE_PLAYER_CASH",
-  UPDATE_PLAYER_DIE_ROLL: "UPDATE_PLAYER_DIE_ROLL",
+  RESET_GAME,
+  CREATE_NEW_PLAYER,
+  UPDATE_PLAYER,
+  UPDATE_PLAYER_PROFILE,
   UPDATE_TIMER: "UPDATE_TIMER"
 };
 
-interface IResetGameAction {
-  type: typeof GameActions.RESET_GAME;
-}
-
-interface ICreateNewPlayerAction {
-  type: typeof GameActions.CREATE_NEW_PLAYER;
-}
-
-interface IUpdatePlayerNameAction {
-  type: typeof GameActions.UPDATE_PLAYER_NAME;
-  name: string;
-}
-
-interface IUpdatePlayerOrganizationNameAction {
-  type: typeof GameActions.UPDATE_PLAYER_ORGANIZATION_NAME;
-  organizationName: string;
-}
-
-interface IUpdatePlayerEmoji {
-  type: typeof GameActions.UPDATE_PLAYER_EMOJI;
-  emoji: ProfileEmoji;
-}
-
-interface IUpdatePlayerStatus {
-  type: typeof GameActions.UPDATE_PLAYER_STATUS;
-  status: PlayerStatus;
-}
-
-interface IUpdatePlayerSpacesToMove {
-  type: typeof GameActions.UPDATE_PLAYER_SPACES_TO_MOVE;
-  spacesToMove: number;
-}
-
-interface IUpdatePlayerLocation {
-  type: typeof GameActions.UPDATE_PLAYER_LOCATION;
-  location: string;
-}
-
-interface IUpdatePlayerCash {
-  type: typeof GameActions.UPDATE_PLAYER_CASH;
-  amount: number;
-}
-
-interface IUpdatePlayerDieRoll {
-  type: typeof GameActions.UPDATE_PLAYER_DIE_ROLL;
-  dieRoll: null | number;
-}
-
-interface IUpdateTimer {
-  type: typeof GameActions.UPDATE_TIMER;
-  timer: {
-    startedAt: null | Date;
-    remaining: number;
-  };
-}
-
-export type GameActions =
-  | IResetGameAction
-  | ICreateNewPlayerAction
-  | IUpdatePlayerNameAction
-  | IUpdatePlayerOrganizationNameAction
-  | IUpdatePlayerEmoji
-  | IUpdatePlayerStatus
-  | IUpdatePlayerSpacesToMove
-  | IUpdatePlayerLocation
-  | IUpdatePlayerCash
-  | IUpdatePlayerDieRoll
-  | IUpdateTimer;
+export type GameActions = any;
 
 // #region Meta
 export const resetGame = (): GameActions => ({
   type: GameActions.RESET_GAME
 });
-// #endregion
-
-// #region Player
-export const createNewPlayer = (): GameActions => ({
-  type: GameActions.CREATE_NEW_PLAYER
-});
-
-export const updatePlayerName = (name: string): GameActions => ({
-  name,
-  type: GameActions.UPDATE_PLAYER_NAME
-});
-
-export const updatePlayerOrganizationName = (
-  organizationName: string
-): GameActions => ({
-  organizationName,
-  type: GameActions.UPDATE_PLAYER_ORGANIZATION_NAME
-});
-
-export const updatePlayerEmoji = (emoji: ProfileEmoji): GameActions => ({
-  emoji,
-  type: GameActions.UPDATE_PLAYER_EMOJI
-});
-
-export const updatePlayerStatus = (status: PlayerStatus): GameActions => ({
-  status,
-  type: GameActions.UPDATE_PLAYER_STATUS
-});
-
-export const updatePlayerSpacesToMove = (
-  spacesToMove: number
-): GameActions => ({
-  spacesToMove,
-  type: GameActions.UPDATE_PLAYER_SPACES_TO_MOVE
-});
-
-export const updatePlayerLocation = (location: string): GameActions => ({
-  location,
-  type: GameActions.UPDATE_PLAYER_LOCATION
-});
-
-export const updatePlayerCash = (amount: number): GameActions => ({
-  type: GameActions.UPDATE_PLAYER_CASH,
-  amount
-});
-
-export const updatePlayerDieRoll = (dieRoll: null | number): GameActions => ({
-  dieRoll,
-  type: GameActions.UPDATE_PLAYER_DIE_ROLL
-});
-
-export const clearPlayerDiceRoll = () => updatePlayerDieRoll(null);
 
 export const updateTimer = (timer: {
   startedAt: null | Date;
@@ -154,7 +40,35 @@ export const updateTimer = (timer: {
 });
 // #endregion
 
+// #region Player
+export const createNewPlayer = (): GameActions => ({
+  type: GameActions.CREATE_NEW_PLAYER
+});
+
+export const updatePlayer = (values: Partial<IPlayerState>) => ({
+  values,
+  type: GameActions.UPDATE_PLAYER
+});
+
+export const updatePlayerProfile = (values: Partial<IProfile>) => ({
+  values,
+  type: GameActions.UPDATE_PLAYER_PROFILE
+});
+
+export const playerRolledDice = (value: number) =>
+  updatePlayer({
+    status: PlayerStatus.Moving,
+    dieRoll: value,
+    hasRolled: true,
+    spacesToMove: value
+  });
+
+export const clearPlayerDiceRoll = () => updatePlayer({ dieRoll: null });
+// #endregion
+
 // #region Thunks
+export let tickingTimer: any;
+
 export const gameStarted = () => (dispatch: any, getState: any) => {
   const state = getState();
   const timer = getTimer(state);
@@ -172,21 +86,50 @@ export const gameStarted = () => (dispatch: any, getState: any) => {
       remaining
     })
   );
+
+  function tick() {
+    dispatch(tickTimer());
+    tickingTimer = setTimeout(tick, 1000);
+  }
+
+  tickingTimer = setTimeout(tick, 1000);
 };
 
-export const playerRolledDice = (value: number) => (dispatch: any) => {
-  dispatch(updatePlayerDieRoll(value));
-  dispatch(updatePlayerStatus(PlayerStatus.Moving));
-  dispatch(updatePlayerSpacesToMove(value));
+export const gameStopped = () => () => clearTimeout(tickingTimer);
+
+export const handlePlayerMove = (endingPoint: string) => (
+  dispatch: any,
+  getState: any
+) => {
+  const state = getState();
+  const movementOptions = getPlayerMovementOptions(state);
+  const { dieRoll } = getPlayer(state);
+
+  // Find the movement option that correlates with the ending point.
+  const potentialMovementOptions = movementOptions.filter(
+    option =>
+      option.length - 1 === dieRoll && option.slice(-1)[0] === endingPoint
+  );
+
+  if (potentialMovementOptions.length === 1) {
+    // There's only one path that could have led to the ending point, let's take it.
+    const [selectedMovementOption] = potentialMovementOptions;
+
+    dispatch(playerMoved(selectedMovementOption));
+  } else {
+    // There's multiple paths that could have led to the ending point.
+    // Show each and have the user confirm.
+    alert("Multiple ending options detected.");
+  }
 };
 
 export const playerMoved = (movementOption: string[]) => async (
   dispatch: any
 ) => {
-  dispatch(updatePlayerStatus(PlayerStatus.Waiting));
+  dispatch(updatePlayer({ status: PlayerStatus.Waiting }));
 
   for (const spaceId of movementOption) {
-    dispatch(updatePlayerLocation(spaceId));
+    dispatch(updatePlayerProfile({ location: spaceId }));
 
     await sleep(150);
   }
@@ -198,8 +141,8 @@ export const playerMoved = (movementOption: string[]) => async (
 export const handleMovementOutcome = () => (dispatch: any, getState: any) => {
   const state = getState();
   const spaces = getWorldMapSpaces(state);
-  const playerLocation = getPlayerLocation(state);
-  const { type } = spaces.byId[playerLocation];
+  const { location } = getPlayerProfile(state);
+  const { type } = spaces.byId[location];
   const outcomes: Record<Space, () => void> = {
     "🔵"() {
       const gain = getNumber(
@@ -243,5 +186,15 @@ export const tickTimer = () => (dispatch: any, getState: any) => {
         config.ROUND_TIME - differenceInSeconds(new Date(), new Date(startedAt))
     })
   );
+};
+
+export const updatePlayerCash = (amount: number) => (
+  dispatch: any,
+  getState: any
+): GameActions => {
+  const { cash } = getPlayerProfile(getState());
+  const newAmount = Math.max(0, cash + amount);
+
+  dispatch(updatePlayerProfile({ cash: newAmount }));
 };
 // #endregion
