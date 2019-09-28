@@ -11,6 +11,8 @@ import {
 } from "../../types";
 
 // #region Meta
+export const getTimer = (state: IGameState) => state.timer;
+
 export const getRound = (state: IGameState) => state.round;
 // #endregion
 

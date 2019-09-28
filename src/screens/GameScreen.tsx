@@ -1,19 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button, Icon, Modal } from "semantic-ui-react";
 import styled from "styled-components";
 
-import { Badge, Box, DiceRoller, RollPanel, WorldMap } from "../components";
 import {
+  Badge,
+  Box,
+  Clock,
+  DiceRoller,
+  RollPanel,
+  WorldMap
+} from "../components";
+import {
+  gameStarted,
   getOccupiedSpaces,
   getPlayerBadgeStats,
   getPlayerDieRoll,
   getPlayerIsMoving,
   getPlayerMovementOptions,
   getPlayerMovementPath,
+  getTimer,
   getWorldMapDisplay,
   playerMoved,
-  playerRolledDice
+  playerRolledDice,
+  tickTimer
 } from "../providers";
 
 export default function GameScreen() {
@@ -27,8 +37,9 @@ export default function GameScreen() {
     cash,
     stars
   } = useSelector(getPlayerBadgeStats);
-  const dieRoll = useSelector(getPlayerDieRoll);
   const dispatch = useDispatch();
+  const timer = useSelector(getTimer);
+  const dieRoll = useSelector(getPlayerDieRoll);
   const occupiedSpaces = useSelector(getOccupiedSpaces);
   const { layout } = useSelector(getWorldMapDisplay);
   const playerIsMoving = useSelector(getPlayerIsMoving);
@@ -64,8 +75,26 @@ export default function GameScreen() {
     updateRolling(!rolling);
   }
 
+  useEffect(() => {
+    dispatch(gameStarted());
+
+    function tick() {
+      dispatch(tickTimer());
+      tickingTimer = setTimeout(tick, 1000);
+    }
+
+    let tickingTimer = setTimeout(tick, 1000);
+
+    return () => {
+      if (tickingTimer) {
+        clearTimeout(tickingTimer);
+      }
+    };
+  }, [dispatch]);
+
   return (
     <>
+      <Clock time={timer.remaining} />
       <WorldMap
         layout={layout}
         playerIsMoving={playerIsMoving}

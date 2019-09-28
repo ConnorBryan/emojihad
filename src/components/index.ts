@@ -1,5 +1,6 @@
 export * from "./Badge";
 export * from "./Box";
+export * from "./Clock";
 export * from "./DiceRoller";
 export * from "./Die";
 export * from "./Emoji";

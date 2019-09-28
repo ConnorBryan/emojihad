@@ -1,3 +1,5 @@
+export const ROUND_TIME = 10;
+
 export const MINIMUM_BLUE_SPACE_CASH_GAIN = 3;
 export const MAXIMUM_BLUE_SPACE_CASH_GAIN = 12;
 

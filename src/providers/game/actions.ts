@@ -1,7 +1,9 @@
+import differenceInSeconds from "date-fns/differenceInSeconds";
+
 import config from "../../config";
 import { getNumber, sleep } from "../../helpers";
 import { ProfileEmoji, PlayerStatus, Space } from "../../types";
-import { getPlayerLocation, getWorldMapSpaces } from "./selectors";
+import { getPlayerLocation, getTimer, getWorldMapSpaces } from "./selectors";
 
 export const GameActions = {
   RESET_GAME: "RESET_GAME",
@@ -13,7 +15,8 @@ export const GameActions = {
   UPDATE_PLAYER_SPACES_TO_MOVE: "UPDATE_PLAYER_SPACES_TO_MOVE",
   UPDATE_PLAYER_LOCATION: "UPDATE_PLAYER_LOCATION",
   UPDATE_PLAYER_CASH: "UPDATE_PLAYER_CASH",
-  UPDATE_PLAYER_DIE_ROLL: "UPDATE_PLAYER_DIE_ROLL"
+  UPDATE_PLAYER_DIE_ROLL: "UPDATE_PLAYER_DIE_ROLL",
+  UPDATE_TIMER: "UPDATE_TIMER"
 };
 
 interface IResetGameAction {
@@ -64,6 +67,14 @@ interface IUpdatePlayerDieRoll {
   dieRoll: null | number;
 }
 
+interface IUpdateTimer {
+  type: typeof GameActions.UPDATE_TIMER;
+  timer: {
+    startedAt: null | Date;
+    remaining: number;
+  };
+}
+
 export type GameActions =
   | IResetGameAction
   | ICreateNewPlayerAction
@@ -74,7 +85,8 @@ export type GameActions =
   | IUpdatePlayerSpacesToMove
   | IUpdatePlayerLocation
   | IUpdatePlayerCash
-  | IUpdatePlayerDieRoll;
+  | IUpdatePlayerDieRoll
+  | IUpdateTimer;
 
 // #region Meta
 export const resetGame = (): GameActions => ({
@@ -128,13 +140,40 @@ export const updatePlayerCash = (amount: number): GameActions => ({
 
 export const updatePlayerDieRoll = (dieRoll: null | number): GameActions => ({
   dieRoll,
-  type: GameActions.UPDATE_PLAYER_CASH
+  type: GameActions.UPDATE_PLAYER_DIE_ROLL
 });
 
 export const clearPlayerDiceRoll = () => updatePlayerDieRoll(null);
+
+export const updateTimer = (timer: {
+  startedAt: null | Date;
+  remaining: number;
+}): GameActions => ({
+  timer,
+  type: GameActions.UPDATE_TIMER
+});
 // #endregion
 
 // #region Thunks
+export const gameStarted = () => (dispatch: any, getState: any) => {
+  const state = getState();
+  const timer = getTimer(state);
+  const remaining = Math.max(
+    config.ROUND_TIME -
+      (timer.startedAt
+        ? differenceInSeconds(new Date(), new Date(timer.startedAt))
+        : 0),
+    0
+  );
+
+  dispatch(
+    updateTimer({
+      startedAt: timer.startedAt || new Date(),
+      remaining
+    })
+  );
+};
+
 export const playerRolledDice = (value: number) => (dispatch: any) => {
   dispatch(updatePlayerDieRoll(value));
   dispatch(updatePlayerStatus(PlayerStatus.Moving));
@@ -187,5 +226,22 @@ export const handleMovementOutcome = () => (dispatch: any, getState: any) => {
   const handleOutcome = outcomes[type];
 
   handleOutcome();
+};
+
+export const tickTimer = () => (dispatch: any, getState: any) => {
+  const state = getState();
+  const { startedAt, remaining } = getTimer(state);
+
+  if (!startedAt || remaining <= 0) {
+    return;
+  }
+
+  dispatch(
+    updateTimer({
+      startedAt,
+      remaining:
+        config.ROUND_TIME - differenceInSeconds(new Date(), new Date(startedAt))
+    })
+  );
 };
 // #endregion

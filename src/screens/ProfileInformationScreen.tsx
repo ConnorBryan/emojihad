@@ -21,8 +21,8 @@ export default function ProfileInformationScreen() {
   return (
     <Formik
       initialValues={{
-        profileName: "",
-        organizationName: ""
+        profileName: "AAA",
+        organizationName: "AAA"
       }}
       validationSchema={Yup.object().shape({
         profileName: Yup.string()

@@ -159,6 +159,10 @@ export interface IGameState {
   allies: INormalizedAllies;
   resources: INormalizedResources;
   round: number;
+  timer: {
+    startedAt: null | Date;
+    remaining: number;
+  };
   worldMap: IWorldMap;
 }
 

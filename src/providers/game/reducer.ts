@@ -1,6 +1,7 @@
 import produce from "immer";
 import uuid from "uuid/v4";
 
+import config from "../../config";
 import { IGameState, PlayerStatus } from "../../types";
 import { worldMap } from "../../logic";
 import { makeReducer } from "../helpers";
@@ -27,6 +28,10 @@ export const initialState: IGameState = {
     byId: {}
   },
   round: 0,
+  timer: {
+    startedAt: null,
+    remaining: config.ROUND_TIME
+  },
   worldMap
 };
 
@@ -102,5 +107,10 @@ export default makeReducer<IGameState>(initialState, {
   [GameActions.UPDATE_PLAYER_DIE_ROLL]: (state, { dieRoll }: any) =>
     produce(state, draft => {
       draft.player.dieRoll = dieRoll;
+    }),
+
+  [GameActions.UPDATE_TIMER]: (state, { timer }: any) =>
+    produce(state, draft => {
+      draft.timer = timer;
     })
 });
