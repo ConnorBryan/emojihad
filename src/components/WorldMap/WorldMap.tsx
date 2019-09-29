@@ -5,7 +5,8 @@ import { Popup } from "semantic-ui-react";
 import styled, { css } from "styled-components";
 
 import { EntityCard } from "../../components";
-import { branchStyles, styleWhen } from "../../helpers";
+import { branchStyles, styleWhen, findFixture } from "../../helpers";
+import { spaces } from "../../logic";
 import { ISpace, IMovementPath, OccupiedSpaces, Directions } from "../../types";
 import { Emoji } from "../Emoji";
 
@@ -31,53 +32,68 @@ export default function WorldMap({
   return (
     <StyledWorldMap columns={layout[0].length}>
       <div className="-inner">
-        {flatten(layout).map(({ uuid, facing = {}, type }) => {
+        {flatten(layout).map(space => {
+          const { uuid, facing = {}, type } = space;
           const isEmpty = type === "⚪️";
           const isFixture = ["🏦", "🕍"].includes(type);
           const isStartingPoint =
             playerIsMoving && movementPath.startingPoint === uuid;
           const isEndingPoint =
             playerIsMoving && movementPath.endingPoints.includes(uuid);
-
-          return (
-            <Popup
+          const inner = (
+            <StyledSpace
               key={uuid}
-              mouseEnterDelay={1000}
-              content={
-                <EntityCard
-                  title="Blue Space"
-                  kind="⚫️"
-                  emoji="🔵"
-                  description="A blue space."
-                />
+              facing={facing}
+              isEmpty={isEmpty}
+              isFixture={isFixture}
+              isStartingPoint={isStartingPoint}
+              isInMovementPath={
+                playerIsMoving && movementPath.path.includes(uuid)
               }
-              on={["hover"]}
-              trigger={
-                <StyledSpace
-                  facing={facing}
-                  isEmpty={isEmpty}
-                  isFixture={isFixture}
-                  isStartingPoint={isStartingPoint}
-                  isInMovementPath={
-                    playerIsMoving && movementPath.path.includes(uuid)
-                  }
-                  isEndingPoint={isEndingPoint}
-                  onClick={isEndingPoint ? () => onPlayerMove(uuid) : noop}
-                >
-                  {!isEmpty && <Emoji emoji={type} size={64} />}
-                  {occupiedSpaces[uuid] &&
-                    occupiedSpaces[uuid].map(({ emoji, uuid: profileId }) => (
-                      <Emoji
-                        key={profileId}
-                        emoji={emoji}
-                        size={48}
-                        className="-occupant"
-                      />
-                    ))}
-                </StyledSpace>
-              }
-            />
+              isEndingPoint={isEndingPoint}
+              onClick={isEndingPoint ? () => onPlayerMove(uuid) : noop}
+            >
+              {!isEmpty && <Emoji emoji={type} size={64} />}
+              {occupiedSpaces[uuid] &&
+                occupiedSpaces[uuid].map(({ emoji, uuid: profileId }) => (
+                  <Emoji
+                    key={profileId}
+                    emoji={emoji}
+                    size={48}
+                    className="-occupant"
+                  />
+                ))}
+            </StyledSpace>
           );
+
+          if (isEmpty) {
+            return inner;
+          } else {
+            const isDirectional = ["🔼", "▶️", "🔽", "◀️"].includes(type);
+            const spaceToLookup = isDirectional
+              ? findFixture(space, layout).type
+              : type;
+
+            const { emoji, title = "", description = "" } = (spaces as any)[
+              spaceToLookup
+            ];
+            return (
+              <Popup
+                key={uuid}
+                mouseEnterDelay={1000}
+                content={
+                  <EntityCard
+                    title={title}
+                    kind="⚫️"
+                    emoji={emoji}
+                    description={description}
+                  />
+                }
+                on={["hover"]}
+                trigger={inner}
+              />
+            );
+          }
         })}
       </div>
     </StyledWorldMap>

@@ -139,7 +139,7 @@ export const continueMovement = (movementOption: string[]) => async (
     dispatch(updatePlayerProfile({ location: nextSpaceId }));
 
     if (isDirectionalSpace(nextSpace.type)) {
-      const fixture = findFixture(nextSpace, layout, spaces);
+      const fixture = findFixture(nextSpace, layout);
 
       const afterInteraction = () => dispatch(continueMovement(movementOption));
 

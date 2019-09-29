@@ -3,6 +3,7 @@ import flatten from "lodash.flatten";
 
 import { WorldMapLayout, IWorldMap, ISpace, Directions } from "../types";
 import * as profiles from "./profiles";
+import spaces from "./spaces.json";
 
 export const layout: WorldMapLayout = [
   // Row 1
@@ -502,4 +503,4 @@ export const worldMap: IWorldMap = {
   )
 };
 
-export { profiles };
+export { profiles, spaces };

@@ -1,0 +1,27 @@
+{
+  "🔵": {
+    "emoji": "🔵",
+    "title": "Blue Space",
+    "description": "..."
+  },
+  "🔴": {
+    "emoji": "🔴",
+    "title": "Red Space",
+    "description": "..."
+  },
+  "🆚": {
+    "emoji": "🆚",
+    "title": "Challenge Space",
+    "description": "..."
+  },
+  "🏦": {
+    "emoji": "🏦",
+    "title": "Bank",
+    "description": "..."
+  },
+  "🕍": {
+    "emoji": "🕍",
+    "title": "Synagogue",
+    "description": "..."
+  }
+}
